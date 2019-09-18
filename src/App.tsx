@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Resume from './resumeForm';
+import Resume from './Resume';
 
 class App extends Component{
   
