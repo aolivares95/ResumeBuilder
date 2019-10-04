@@ -1,8 +1,5 @@
 import { Component } from "react";
 import React from "react";
-import Resume from "./Resume";
-import resumeStore from "./resumeStore";
-import { exportDefaultDeclaration } from "@babel/types";
 
 let style = {
   padding: "10px"
@@ -15,8 +12,10 @@ let buttonStyle = {
 interface IResume {
   name: string;
   phoneNumber: string;
-  education: string[];
+  education: string;
   isSubmitted: boolean;
+  isEducationSubmitted: boolean;
+  educationArray: string[];
 }
 
 export default class ResumeForm extends Component<any, IResume> {
@@ -24,15 +23,19 @@ export default class ResumeForm extends Component<any, IResume> {
 
   constructor(props: any) {
     super(props);
+
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.displayInput = this.displayInput.bind(this);
-    this.handleEducationInput = this.handleEducationInput.bind(this);
+    this.handleAddEducation = this.handleAddEducation.bind(this);
+    this.handleClearResume = this.handleClearResume.bind(this);
     this.state = {
       name: "",
       phoneNumber: "",
-      education: [],
-      isSubmitted: false
+      education: "",
+      isSubmitted: false,
+      isEducationSubmitted: false,
+      educationArray: []
     };
   }
 
@@ -40,20 +43,17 @@ export default class ResumeForm extends Component<any, IResume> {
     const target = event.target;
     const name = target.name;
 
-    if (name == "enterName") {
+    if (name === "enterName") {
       this.setState({ name: target.value });
-    } else if (name == "enterNumber") {
+    } else if (name === "enterNumber") {
       this.setState({ phoneNumber: target.value });
     } else {
+      this.setState({ education: target.value });
     }
-    //console.log(this.newResume.education);
-  }
-
-  handleEducationInput(event: any) {
-    this.setState({ education: [event.target.value] });
   }
 
   displayInput() {
+    const items = this.state.educationArray.map(item => <li>{item}</li>);
     return (
       <>
         <p>
@@ -64,40 +64,78 @@ export default class ResumeForm extends Component<any, IResume> {
           Your number:
           {this.state.phoneNumber}
         </p>
-        Your education:
-        {this.state.education}
+        <ul>
+          Your education:
+          {items}
+        </ul>
       </>
     );
   }
+
   handleSubmit(event: any) {
     this.setState({ isSubmitted: !this.state.isSubmitted });
     event.preventDefault();
   }
+  handleAddEducation(event: any) {
+    event.preventDefault();
+    if (this.state.education !== "") {
+      this.state.educationArray.push(this.state.education);
+    }
+    this.setState({ education: "" });
+    this.setState({ isEducationSubmitted: !this.state.isEducationSubmitted });
+  }
+
+  handleClearResume(event: any) {
+    event.preventDefault();
+    this.setState({
+      name: "",
+      phoneNumber: "",
+      education: "",
+      educationArray: []
+    });
+  }
 
   render() {
-    return !this.state.isSubmitted ? (
-      <form onSubmit={this.handleSubmit}>
-        <label style={style}>Please enter your name</label>
-        <input onChange={this.handleInput} name="enterName" type="text" />
-        <label style={style}>Please enter your phone number</label>
+    const { educationArray, isEducationSubmitted, isSubmitted } = this.state;
+    const items = educationArray.map(item => <li>{item}</li>);
 
-        <input name="enterNumber" type="text" onChange={this.handleInput} />
-        <label style={style}>Please enter your education history</label>
-        <input
-          onChange={this.handleEducationInput}
-          name="enterEducation"
-          type="text"
-        />
-        <div style={buttonStyle}>
-          <button id="submit-button" type="submit" onClick={this.handleSubmit}>
-            Add to history
-          </button>
-        </div>
-      </form>
+    return !isSubmitted ? (
+      <>
+        <form>
+          <label style={style}>Please enter your name</label>
+          <input onChange={this.handleInput} name="enterName" type="text" />
+          <label style={style}>Please enter your phone number</label>
+
+          <input name="enterNumber" type="text" onChange={this.handleInput} />
+          <label style={style}>Please enter your education history</label>
+
+          {!isEducationSubmitted ? (
+            <input
+              name="enterEducation"
+              type="text"
+              onChange={this.handleInput}
+            />
+          ) : (
+            <ul>{items}</ul>
+          )}
+
+          <button onClick={this.handleAddEducation}>Add/view education</button>
+          <div style={buttonStyle}>
+            <button
+              id="submit-button"
+              type="submit"
+              onClick={this.handleSubmit}
+            >
+              Preview resume
+            </button>
+          </div>
+        </form>
+      </>
     ) : (
       <>
         <p id="user-input">{this.displayInput()}</p>
         <button onClick={this.handleSubmit}>Go back</button>
+        <button onClick={this.handleClearResume}>Clear resume</button>
       </>
     );
   }
