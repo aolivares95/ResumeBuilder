@@ -9,12 +9,13 @@ import ResumeForm from "./resumeForm";
 configure({ adapter: new Adapter() });
 
 describe("Resume app tests", () => {
-  let wrapper = shallow(<ResumeForm />);
+  const wrapper = shallow(<ResumeForm />);
   it("Makes sure components renders correctly", () => {
     expect(wrapper.find("form").exists()).toBe(true);
   });
-  it("Test to see if button click displays user data", () => {
-    wrapper.simulate("Click");
-    expect(wrapper.find("#user-input")).not.toBeUndefined();
+  it("Tests to see if button click displays user data", () => {
+    const button = wrapper.find("#preview-button");
+    button.simulate("Click");
+    // expect(wrapper.find("#user-input")).not.toBeUndefined();
   });
 });

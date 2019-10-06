@@ -1,5 +1,6 @@
 import { Component } from "react";
 import React from "react";
+import { observer } from "mobx-react";
 
 let style = {
   padding: "10px"
@@ -9,34 +10,14 @@ let buttonStyle = {
   padding: "20px"
 };
 
-interface IResume {
-  name: string;
-  phoneNumber: string;
-  education: string;
-  isSubmitted: boolean;
-  isEducationSubmitted: boolean;
-  educationArray: string[];
-}
-
-export default class ResumeForm extends Component<any, IResume> {
-  //rootStore=resumeStore.create();
-
+class ResumeForm extends Component<any> {
   constructor(props: any) {
     super(props);
-
     this.handleInput = this.handleInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.displayInput = this.displayInput.bind(this);
     this.handleAddEducation = this.handleAddEducation.bind(this);
     this.handleClearResume = this.handleClearResume.bind(this);
-    this.state = {
-      name: "",
-      phoneNumber: "",
-      education: "",
-      isSubmitted: false,
-      isEducationSubmitted: false,
-      educationArray: []
-    };
   }
 
   handleInput(event: any) {
@@ -44,25 +25,27 @@ export default class ResumeForm extends Component<any, IResume> {
     const name = target.name;
 
     if (name === "enterName") {
-      this.setState({ name: target.value });
+      this.props.rootStore.getResume(0).addName(target.value);
     } else if (name === "enterNumber") {
-      this.setState({ phoneNumber: target.value });
+      this.props.rootStore.getResume(0).addPhoneNumber(target.value);
     } else {
-      this.setState({ education: target.value });
+      this.props.rootStore.getResume(0).addEducation(target.value);
     }
   }
 
   displayInput() {
-    const items = this.state.educationArray.map(item => <li>{item}</li>);
+    const items = this.props.rootStore
+      .getResume(0)
+      .educationArray.map((item: string) => <li>{item}</li>);
     return (
       <>
         <p>
           Your name:
-          {this.state.name}
+          {this.props.rootStore.getResume(0).name}
         </p>
         <p>
           Your number:
-          {this.state.phoneNumber}
+          {this.props.rootStore.getResume(0).phoneNumber}
         </p>
         <ul>
           Your education:
@@ -73,33 +56,36 @@ export default class ResumeForm extends Component<any, IResume> {
   }
 
   handleSubmit(event: any) {
-    this.setState({ isSubmitted: !this.state.isSubmitted });
+    this.props.rootStore.setIsSubmitted(!this.props.rootStore.isSubmitted);
     event.preventDefault();
   }
   handleAddEducation(event: any) {
     event.preventDefault();
-    if (this.state.education !== "") {
-      this.state.educationArray.push(this.state.education);
+    if (this.props.rootStore.getResume(0).education !== "") {
+      this.props.rootStore.getResume(0).saveEducation();
     }
-    this.setState({ education: "" });
-    this.setState({ isEducationSubmitted: !this.state.isEducationSubmitted });
+    this.props.rootStore.getResume(0).addEducation(event.target.value);
+    this.props.rootStore.setIsEducationSubmitted(
+      !this.props.rootStore.isEducationSubmitted
+    );
   }
 
   handleClearResume(event: any) {
     event.preventDefault();
-    this.setState({
+    this.props.rootStore.getResume(0).clearResume();
+  }
+
+  render() {
+    this.props.rootStore.addResume({
       name: "",
       phoneNumber: "",
       education: "",
       educationArray: []
     });
-  }
-
-  render() {
-    const { educationArray, isEducationSubmitted, isSubmitted } = this.state;
-    const items = educationArray.map(item => <li>{item}</li>);
-
-    return !isSubmitted ? (
+    const items = this.props.rootStore
+      .getResume(0)
+      .educationArray.map((item: string) => <li>{item}</li>);
+    return !this.props.rootStore.isSubmitted ? (
       <>
         <form>
           <label style={style}>Please enter your name</label>
@@ -109,7 +95,7 @@ export default class ResumeForm extends Component<any, IResume> {
           <input name="enterNumber" type="text" onChange={this.handleInput} />
           <label style={style}>Please enter your education history</label>
 
-          {!isEducationSubmitted ? (
+          {!this.props.rootStore.isEducationSubmitted ? (
             <input
               name="enterEducation"
               type="text"
@@ -122,7 +108,7 @@ export default class ResumeForm extends Component<any, IResume> {
           <button onClick={this.handleAddEducation}>Add/view education</button>
           <div style={buttonStyle}>
             <button
-              id="submit-button"
+              id="preview-button"
               type="submit"
               onClick={this.handleSubmit}
             >
@@ -134,9 +120,15 @@ export default class ResumeForm extends Component<any, IResume> {
     ) : (
       <>
         <p id="user-input">{this.displayInput()}</p>
-        <button onClick={this.handleSubmit}>Go back</button>
-        <button onClick={this.handleClearResume}>Clear resume</button>
+        <button id="go-back" onClick={this.handleSubmit}>
+          Go back
+        </button>
+        <button id="clear-resume" onClick={this.handleClearResume}>
+          Clear resume
+        </button>
       </>
     );
   }
 }
+
+export default observer(ResumeForm);
