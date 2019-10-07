@@ -7,7 +7,8 @@ const resumeStore = types
     resumes: types.array(Resume),
     id: 0,
     isSubmitted: false,
-    isEducationSubmitted: false
+    isEducationSubmitted: false,
+    selectedResume: 0
   })
   .actions(self => {
     return {
@@ -24,6 +25,9 @@ const resumeStore = types
       },
       setIsEducationSubmitted(newIsEducationSubmitted: boolean) {
         self.isEducationSubmitted = newIsEducationSubmitted;
+      },
+      setSelectedResume(sel: number) {
+        self.selectedResume = sel;
       }
     };
   });

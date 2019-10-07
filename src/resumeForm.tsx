@@ -10,6 +10,12 @@ let buttonStyle = {
   padding: "20px"
 };
 
+//add more fields for things to match real resume
+//add resume select page, react router
+//add ability to select a specific resume with a drop down
+//add styles
+//add backend
+
 class ResumeForm extends Component<any> {
   constructor(props: any) {
     super(props);
@@ -25,46 +31,77 @@ class ResumeForm extends Component<any> {
     const name = target.name;
 
     if (name === "enterName") {
-      this.props.rootStore.getResume(0).addName(target.value);
+      this.props.rootStore
+        .getResume(this.props.rootStore.selectedResume)
+        .addName(target.value);
     } else if (name === "enterNumber") {
-      this.props.rootStore.getResume(0).addPhoneNumber(target.value);
+      this.props.rootStore
+        .getResume(this.props.rootStore.selectedResume)
+        .addPhoneNumber(target.value);
     } else {
-      this.props.rootStore.getResume(0).addEducation(target.value);
+      this.props.rootStore
+        .getResume(this.props.rootStore.selectedResume)
+        .addEducation(target.value);
     }
   }
 
   displayInput() {
-    const items = this.props.rootStore
-      .getResume(0)
-      .educationArray.map((item: string) => <li>{item}</li>);
-    return (
-      <>
-        <p>
-          Your name:
-          {this.props.rootStore.getResume(0).name}
-        </p>
-        <p>
-          Your number:
-          {this.props.rootStore.getResume(0).phoneNumber}
-        </p>
-        <ul>
-          Your education:
-          {items}
-        </ul>
-      </>
-    );
+    let items;
+    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
+      items = this.props.rootStore
+        .getResume(this.props.rootStore.selectedResume)
+        .educationArray.map((item: string) => <li>{item}</li>);
+    } else {
+      items = <li></li>;
+    }
+
+    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
+      return (
+        <>
+          <p>
+            Your name:
+            {
+              this.props.rootStore.getResume(
+                this.props.rootStore.selectedResume
+              ).name
+            }
+          </p>
+          <p>
+            Your number:
+            {
+              this.props.rootStore.getResume(
+                this.props.rootStore.selectedResume
+              ).phoneNumber
+            }
+          </p>
+          <ul>
+            Your education:
+            {items}
+          </ul>
+        </>
+      );
+    } else {
+      return <p>empty</p>;
+    }
   }
 
   handleSubmit(event: any) {
-    this.props.rootStore.setIsSubmitted(!this.props.rootStore.isSubmitted);
     event.preventDefault();
+    this.props.rootStore.setIsSubmitted(!this.props.rootStore.isSubmitted);
   }
   handleAddEducation(event: any) {
     event.preventDefault();
-    if (this.props.rootStore.getResume(0).education !== "") {
-      this.props.rootStore.getResume(0).saveEducation();
+    if (
+      this.props.rootStore.getResume(this.props.rootStore.selectedResume)
+        .education !== ""
+    ) {
+      this.props.rootStore
+        .getResume(this.props.rootStore.selectedResume)
+        .saveEducation();
     }
-    this.props.rootStore.getResume(0).addEducation(event.target.value);
+    this.props.rootStore
+      .getResume(this.props.rootStore.selectedResume)
+      .addEducation(event.target.value);
     this.props.rootStore.setIsEducationSubmitted(
       !this.props.rootStore.isEducationSubmitted
     );
@@ -72,19 +109,20 @@ class ResumeForm extends Component<any> {
 
   handleClearResume(event: any) {
     event.preventDefault();
-    this.props.rootStore.getResume(0).clearResume();
+    this.props.rootStore
+      .getResume(this.props.rootStore.selectedResume)
+      .clearResume();
   }
 
   render() {
-    this.props.rootStore.addResume({
-      name: "",
-      phoneNumber: "",
-      education: "",
-      educationArray: []
-    });
-    const items = this.props.rootStore
-      .getResume(0)
-      .educationArray.map((item: string) => <li>{item}</li>);
+    let items;
+    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
+      items = this.props.rootStore
+        .getResume(this.props.rootStore.selectedResume)
+        .educationArray.map((item: string) => <li>{item}</li>);
+    } else {
+      items = <li></li>;
+    }
     return !this.props.rootStore.isSubmitted ? (
       <>
         <form>
