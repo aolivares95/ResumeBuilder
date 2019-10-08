@@ -47,7 +47,10 @@ class App extends Component<any, IApp> {
 
   toggleEditPage = (event: any) => {
     event.preventDefault();
-    this.setState({ selectPage: false, addPage: false, editPage: true });
+    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
+      this.setState({ selectPage: false, addPage: false, editPage: true });
+    }
+    console.log(this.props.rootStore.selectedResume);
   };
   render() {
     if (this.state.addPage) {
@@ -69,6 +72,7 @@ class App extends Component<any, IApp> {
       return (
         <div className="App">
           <button onClick={this.toggleEditPage}>Edit resume</button>
+          <button onClick={this.toggleAddPage}>Back to main</button>
           <ResumeSelectPage rootStore={this.props.rootStore} />
         </div>
       );
