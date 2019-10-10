@@ -11,12 +11,13 @@ let buttonStyle = {
 };
 
 //add more fields for things to match real resume
-//add resume select page, react router
-//add ability to select a specific resume with a drop down
+//add react router
 //add styles
 //add backend
+//split up pages into single components
+//add tests
 
-class ResumeForm extends Component<any> {
+class EditResumePage extends Component<any> {
   constructor(props: any) {
     super(props);
     this.handleInput = this.handleInput.bind(this);
@@ -169,4 +170,4 @@ class ResumeForm extends Component<any> {
   }
 }
 
-export default observer(ResumeForm);
+export default observer(EditResumePage);

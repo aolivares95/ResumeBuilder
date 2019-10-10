@@ -1,6 +1,4 @@
 import { types } from "mobx-state-tree";
-import { instanceOf } from "prop-types";
-//import { types } from "@babel/core";
 
 const Resume = types
   .model("Resume", {

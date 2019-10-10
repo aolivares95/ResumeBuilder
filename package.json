@@ -11,6 +11,7 @@
     "mobx-state-tree": "^3.14.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.1.1",
     "typescript": "3.6.2"
   },
@@ -39,6 +40,7 @@
     "@types/enzyme": "^3.10.3",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/react": "^16.9.2",
+    "@types/react-router-dom": "^5.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.4.0",

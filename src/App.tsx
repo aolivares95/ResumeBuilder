@@ -1,83 +1,27 @@
 import React, { Component } from "react";
 import "./App.css";
-import ResumeForm from "./resumeForm";
-import ResumeSelectPage from "./resumeSelectPage";
-import { observer } from "mobx-react";
+import EditResumePage from "./Pages/EditResumePage";
+import rootStore from "./Models/resumeStore";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import AddPage from "./RouterExperiment/AddPage";
+import SelectResumePage from "./RouterExperiment/SelectResumePage";
 
-interface IApp {
-  editPage: boolean;
-  addPage: boolean;
-  selectPage: boolean;
-}
-
-class App extends Component<any, IApp> {
-  constructor(props: any) {
-    super(props);
-    this.toggleSelectPage = this.toggleSelectPage.bind(this);
-    this.addResume = this.addResume.bind(this);
-    this.toggleAddPage = this.toggleAddPage.bind(this);
-    this.toggleEditPage = this.toggleEditPage.bind(this);
-
-    this.state = {
-      editPage: false,
-      selectPage: false,
-      addPage: true
-    };
-  }
-  toggleSelectPage = (event: any) => {
-    event.preventDefault();
-    this.setState({ editPage: false, addPage: false, selectPage: true });
-  };
-
-  addResume = (event: any) => {
-    event.preventDefault();
-    this.props.rootStore.addResume({
-      name: "",
-      phoneNumber: "",
-      education: "",
-      educationArray: []
-    });
-    this.setState({ selectPage: false, addPage: false, editPage: true });
-  };
-
-  toggleAddPage = (event: any) => {
-    event.preventDefault();
-    this.setState({ addPage: !this.state.addPage });
-  };
-
-  toggleEditPage = (event: any) => {
-    event.preventDefault();
-    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
-      this.setState({ selectPage: false, addPage: false, editPage: true });
-    }
-    console.log(this.props.rootStore.selectedResume);
-  };
+class App extends Component {
   render() {
-    if (this.state.addPage) {
-      return (
-        <div className="App">
-          <button onClick={this.addResume}>Add Resume</button>
-          <button onClick={this.toggleSelectPage}>Select resume</button>
-        </div>
-      );
-    } else if (this.state.editPage) {
-      return (
-        <div className="App">
-          <button onClick={this.toggleSelectPage}>Choose resume</button>
-          <button onClick={this.toggleAddPage}>Back to main</button>
-          <ResumeForm rootStore={this.props.rootStore} />
-        </div>
-      );
-    } else if (this.state.selectPage) {
-      return (
-        <div className="App">
-          <button onClick={this.toggleEditPage}>Edit resume</button>
-          <button onClick={this.toggleAddPage}>Back to main</button>
-          <ResumeSelectPage rootStore={this.props.rootStore} />
-        </div>
-      );
-    }
+    return (
+      <Router>
+        <Route exact path="/" component={AddPage}>
+          <AddPage rootStore={rootStore} />
+        </Route>
+        <Route exact path="/edit" component={EditResumePage}>
+          <EditResumePage rootStore={rootStore} />
+        </Route>
+        <Route exact path="/select" component={SelectResumePage}>
+          <SelectResumePage rootStore={rootStore} />
+        </Route>
+      </Router>
+    );
   }
 }
 
-export default observer(App);
+export default App;

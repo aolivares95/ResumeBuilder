@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow, mount, render } from "enzyme";
-import Resume from "./Resume";
+import Resume from "../Models/Resume";
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import ResumeForm from "./resumeForm";
+import ResumeForm from "../Pages/EditResumePage";
 
 //fix tests
 configure({ adapter: new Adapter() });
