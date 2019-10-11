@@ -7,9 +7,13 @@ class SelectResumePage extends Component<any> {
   render() {
     return (
       <div>
-        <Link to="/edit">
-          <button>Edit resume</button>
-        </Link>
+        {this.props.rootStore.getResume(0) ? (
+          <Link to="/edit">
+            <button>Edit resume</button>
+          </Link>
+        ) : (
+          undefined
+        )}
         <Link to="/">
           <button>Back to main</button>
         </Link>

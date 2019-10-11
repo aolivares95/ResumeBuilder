@@ -1,6 +1,7 @@
 import { Component } from "react";
 import React from "react";
 import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
 
 let style = {
   padding: "10px"
@@ -11,10 +12,8 @@ let buttonStyle = {
 };
 
 //add more fields for things to match real resume
-//add react router
 //add styles
 //add backend
-//split up pages into single components
 //add tests
 
 class EditResumePage extends Component<any> {
@@ -153,6 +152,9 @@ class EditResumePage extends Component<any> {
             >
               Preview resume
             </button>
+            <Link to="/">
+              <button>Go back</button>
+            </Link>
           </div>
         </form>
       </>

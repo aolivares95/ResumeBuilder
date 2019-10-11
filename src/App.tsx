@@ -3,8 +3,9 @@ import "./App.css";
 import EditResumePage from "./Pages/EditResumePage";
 import rootStore from "./Models/resumeStore";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import AddPage from "./RouterExperiment/AddPage";
-import SelectResumePage from "./RouterExperiment/SelectResumePage";
+import AddPage from "./Pages/AddPage";
+import SelectResumePage from "./Pages/SelectResumePage";
+import "reflect-metadata";
 
 class App extends Component {
   render() {
