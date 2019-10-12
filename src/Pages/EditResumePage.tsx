@@ -2,6 +2,7 @@ import { Component } from "react";
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
+import { addDivStyle, addH1Style } from "../Styles";
 
 let style = {
   padding: "10px"
@@ -50,32 +51,32 @@ class EditResumePage extends Component<any> {
     if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
       items = this.props.rootStore
         .getResume(this.props.rootStore.selectedResume)
-        .educationArray.map((item: string) => <li>{item}</li>);
+        .educationArray.map((item: string) => <label>{item}</label>);
     } else {
-      items = <li></li>;
+      items = <label></label>;
     }
 
     if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
       return (
         <>
-          <p>
-            Your name:
-            {
-              this.props.rootStore.getResume(
-                this.props.rootStore.selectedResume
-              ).name
-            }
-          </p>
-          <p>
-            Your number:
-            {
-              this.props.rootStore.getResume(
-                this.props.rootStore.selectedResume
-              ).phoneNumber
-            }
-          </p>
           <ul>
-            Your education:
+            <li>
+              Your name:
+              {
+                this.props.rootStore.getResume(
+                  this.props.rootStore.selectedResume
+                ).name
+              }
+            </li>
+            <li>
+              Your number:
+              {
+                this.props.rootStore.getResume(
+                  this.props.rootStore.selectedResume
+                ).phoneNumber
+              }
+            </li>
+            <li>Your education: </li>
             {items}
           </ul>
         </>
