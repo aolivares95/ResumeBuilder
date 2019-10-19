@@ -126,7 +126,9 @@ class EditResumePage extends Component<any> {
     }
     return !this.props.rootStore.isSubmitted ? (
       <>
-        <form>
+        <form
+          style={{ display: "grid", justifyItems: "center", minHeight: "50vh" }}
+        >
           <label style={style}>Please enter your name</label>
           <input onChange={this.handleInput} name="enterName" type="text" />
           <label style={style}>Please enter your phone number</label>
@@ -160,7 +162,7 @@ class EditResumePage extends Component<any> {
         </form>
       </>
     ) : (
-      <>
+      <div style={{ display: "grid", justifyContent: "center" }}>
         <p id="user-input">{this.displayInput()}</p>
         <button id="go-back" onClick={this.handleSubmit}>
           Go back
@@ -168,7 +170,7 @@ class EditResumePage extends Component<any> {
         <button id="clear-resume" onClick={this.handleClearResume}>
           Clear resume
         </button>
-      </>
+      </div>
     );
   }
 }
