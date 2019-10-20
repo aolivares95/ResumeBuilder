@@ -1,8 +1,8 @@
-import { Component } from "react";
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { addDivStyle, addH1Style } from "../Styles";
+import { context } from "../App";
 
 let style = {
   padding: "10px"
@@ -17,66 +17,42 @@ let buttonStyle = {
 //add backend
 //add tests
 
-class EditResumePage extends Component<any> {
-  constructor(props: any) {
-    super(props);
-    this.handleInput = this.handleInput.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.displayInput = this.displayInput.bind(this);
-    this.handleAddEducation = this.handleAddEducation.bind(this);
-    this.handleClearResume = this.handleClearResume.bind(this);
-  }
-
-  handleInput(event: any) {
+function EditResumePage() {
+  const store = React.useContext(context);
+  function handleInput(event: any) {
     const target = event.target;
     const name = target.name;
 
     if (name === "enterName") {
-      this.props.rootStore
-        .getResume(this.props.rootStore.selectedResume)
-        .addName(target.value);
+      store.getResume(store.selectedResume).addName(target.value);
     } else if (name === "enterNumber") {
-      this.props.rootStore
-        .getResume(this.props.rootStore.selectedResume)
-        .addPhoneNumber(target.value);
+      store.getResume(store.selectedResume).addPhoneNumber(target.value);
     } else {
-      this.props.rootStore
-        .getResume(this.props.rootStore.selectedResume)
-        .addEducation(target.value);
+      store.getResume(store.selectedResume).addEducation(target.value);
     }
   }
 
-  displayInput() {
+  function displayInput() {
     let items;
-    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
-      items = this.props.rootStore
-        .getResume(this.props.rootStore.selectedResume)
-        .educationArray.map((item: string) => <label>{item}</label>);
+    if (store.getResume(store.selectedResume)) {
+      items = store
+        .getResume(store.selectedResume)
+        .educationArray.map((item: string) => (
+          <li style={{ listStyleType: "none" }}>{item}</li>
+        ));
     } else {
-      items = <label></label>;
+      items = <li></li>;
     }
 
-    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
+    if (store.getResume(store.selectedResume)) {
       return (
         <>
           <ul>
-            <li>
-              Your name:
-              {
-                this.props.rootStore.getResume(
-                  this.props.rootStore.selectedResume
-                ).name
-              }
-            </li>
-            <li>
-              Your number:
-              {
-                this.props.rootStore.getResume(
-                  this.props.rootStore.selectedResume
-                ).phoneNumber
-              }
-            </li>
-            <li>Your education: </li>
+            <h1>Your name:</h1>
+            <label>{store.getResume(store.selectedResume).name}</label>
+            <h1>Your number:</h1>
+            <label>{store.getResume(store.selectedResume).phoneNumber}</label>
+            <h1>Your education: </h1>
             {items}
           </ul>
         </>
@@ -86,93 +62,72 @@ class EditResumePage extends Component<any> {
     }
   }
 
-  handleSubmit(event: any) {
+  function handleSubmit(event: any) {
     event.preventDefault();
-    this.props.rootStore.setIsSubmitted(!this.props.rootStore.isSubmitted);
+    store.setIsSubmitted(!store.isSubmitted);
   }
-  handleAddEducation(event: any) {
+  function handleAddEducation(event: any) {
     event.preventDefault();
-    if (
-      this.props.rootStore.getResume(this.props.rootStore.selectedResume)
-        .education !== ""
-    ) {
-      this.props.rootStore
-        .getResume(this.props.rootStore.selectedResume)
-        .saveEducation();
+    if (store.getResume(store.selectedResume).education !== "") {
+      store.getResume(store.selectedResume).saveEducation();
     }
-    this.props.rootStore
-      .getResume(this.props.rootStore.selectedResume)
-      .addEducation(event.target.value);
-    this.props.rootStore.setIsEducationSubmitted(
-      !this.props.rootStore.isEducationSubmitted
-    );
+    store.getResume(store.selectedResume).addEducation(event.target.value);
+    store.setIsEducationSubmitted(!store.isEducationSubmitted);
   }
 
-  handleClearResume(event: any) {
+  function handleClearResume(event: any) {
     event.preventDefault();
-    this.props.rootStore
-      .getResume(this.props.rootStore.selectedResume)
-      .clearResume();
+    store.getResume(store.selectedResume).clearResume();
   }
 
-  render() {
-    let items;
-    if (this.props.rootStore.getResume(this.props.rootStore.selectedResume)) {
-      items = this.props.rootStore
-        .getResume(this.props.rootStore.selectedResume)
-        .educationArray.map((item: string) => <li>{item}</li>);
-    } else {
-      items = <li></li>;
-    }
-    return !this.props.rootStore.isSubmitted ? (
-      <>
-        <form
-          style={{ display: "grid", justifyItems: "center", minHeight: "50vh" }}
-        >
-          <label style={style}>Please enter your name</label>
-          <input onChange={this.handleInput} name="enterName" type="text" />
-          <label style={style}>Please enter your phone number</label>
-
-          <input name="enterNumber" type="text" onChange={this.handleInput} />
-          <label style={style}>Please enter your education history</label>
-
-          {!this.props.rootStore.isEducationSubmitted ? (
-            <input
-              name="enterEducation"
-              type="text"
-              onChange={this.handleInput}
-            />
-          ) : (
-            <ul>{items}</ul>
-          )}
-
-          <button onClick={this.handleAddEducation}>Add/view education</button>
-          <div style={buttonStyle}>
-            <button
-              id="preview-button"
-              type="submit"
-              onClick={this.handleSubmit}
-            >
-              Preview resume
-            </button>
-            <Link to="/">
-              <button>Go back</button>
-            </Link>
-          </div>
-        </form>
-      </>
-    ) : (
-      <div style={{ display: "grid", justifyContent: "center" }}>
-        <p id="user-input">{this.displayInput()}</p>
-        <button id="go-back" onClick={this.handleSubmit}>
-          Go back
-        </button>
-        <button id="clear-resume" onClick={this.handleClearResume}>
-          Clear resume
-        </button>
-      </div>
-    );
+  let items;
+  if (store.getResume(store.selectedResume)) {
+    items = store
+      .getResume(store.selectedResume)
+      .educationArray.map((item: string) => <li>{item}</li>);
+  } else {
+    items = <li></li>;
   }
+  return !store.isSubmitted ? (
+    <>
+      <form
+        style={{ display: "grid", justifyItems: "center", minHeight: "50vh" }}
+      >
+        <label style={style}>Please enter your name</label>
+        <input onChange={handleInput} name="enterName" type="text" />
+        <label style={style}>Please enter your phone number</label>
+
+        <input name="enterNumber" type="text" onChange={handleInput} />
+        <label style={style}>Please enter your education history</label>
+
+        {!store.isEducationSubmitted ? (
+          <input name="enterEducation" type="text" onChange={handleInput} />
+        ) : (
+          <ul>{items}</ul>
+        )}
+
+        <button onClick={handleAddEducation}>Add/view education</button>
+        <div style={buttonStyle}>
+          <button id="preview-button" type="submit" onClick={handleSubmit}>
+            Preview resume
+          </button>
+          <Link to="/">
+            <button>Go back</button>
+          </Link>
+        </div>
+      </form>
+    </>
+  ) : (
+    <div style={{ display: "grid", justifyContent: "center" }}>
+      <p id="user-input">{displayInput()}</p>
+      <button id="go-back" onClick={handleSubmit}>
+        Go back
+      </button>
+      <button id="clear-resume" onClick={handleClearResume}>
+        Clear resume
+      </button>
+    </div>
+  );
 }
 
 export default observer(EditResumePage);

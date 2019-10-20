@@ -1,30 +1,25 @@
 import * as React from "react";
-import { Component } from "react";
 import { observer } from "mobx-react";
+import { context } from "../App";
 
-class ResumeSelectBox extends Component<any> {
-  constructor(props: any) {
-    super(props);
-    this.handleSelect = this.handleSelect.bind(this);
-  }
-  handleSelect = (event: any) => {
+function ResumeSelectBox() {
+  const store = React.useContext(context);
+  function handleSelect(event: any) {
     event.preventDefault();
     const target = event.target.value;
     const temp = parseInt(target.substring(0, target.indexOf(":")));
 
     if (temp !== NaN) {
-      this.props.rootStore.setSelectedResume(temp);
+      store.setSelectedResume(temp);
     }
-  };
-  render() {
-    const items = this.props.rootStore.resumes.map((item: any) => (
-      <option>
-        {item.id}: {item.name}
-      </option>
-    ));
-
-    return <select onClick={this.handleSelect}>{items}</select>;
   }
+  const items = store.resumes.map((item: any) => (
+    <option>
+      {item.id}: {item.name}
+    </option>
+  ));
+
+  return <select onClick={handleSelect}>{items}</select>;
 }
 
 export default observer(ResumeSelectBox);
