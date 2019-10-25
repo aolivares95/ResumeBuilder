@@ -20,7 +20,7 @@ function AddPage() {
       <h1 style={addH1Style}>Welcome to the Resume APP!</h1>
       <header style={addDivStyle}>
         <Link to="/edit">
-          <button onClick={addResume}>Add Resume</button>
+          <button id="add-resume" onClick={addResume}>Add Resume</button>
         </Link>
         <Link to="/select">
           <button>Select resume</button>
