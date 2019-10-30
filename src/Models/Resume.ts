@@ -6,7 +6,8 @@ const Resume = types
     name: types.optional(types.string, ""),
     phoneNumber: types.optional(types.string, ""),
     education: types.optional(types.string, ""),
-    educationArray: types.optional(types.array(types.string), [])
+    educationArray: types.optional(types.array(types.string), []),
+    uuid: types.optional(types.string, "")
   })
   .actions(self => {
     return {
@@ -28,6 +29,11 @@ const Resume = types
         self.educationArray.clear();
         self.education = "";
       }
+      /*
+      save() {
+        saveResume(self.name, self.phoneNumber);
+        saveEducation(self.educationArray, self.uuid);
+      }*/
     };
   });
 

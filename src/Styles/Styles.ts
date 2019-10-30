@@ -8,7 +8,13 @@ let addDivStyle = {
 let addH1Style = {
   display: "flex",
   alignItems: "center",
-  justifyContent: "center"
+  justifyContent: "center",
+  fontFamily: "Roboto",
+  marginTop: "90px"
 };
 
-export { addDivStyle, addH1Style };
+let buttonStyle = {
+  fontFamily: "Roboto"
+};
+
+export { addDivStyle, addH1Style, buttonStyle };

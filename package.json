@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.5.2",
     "@types/jest": "24.0.18",
     "@types/node": "^12.7.12",
     "@types/react-dom": "16.9.0",
@@ -11,9 +12,11 @@
     "mobx-state-tree": "^3.14.1",
     "mysql": "^2.17.1",
     "react": "^16.9.0",
+    "react-app-rewired": "^2.1.4",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.1",
+    "react-scripts": "3.1.2",
+    "typeface-roboto": "^0.0.75",
     "typeorm": "^0.2.19",
     "typescript": "3.6.2"
   },
@@ -23,9 +26,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
-  },
-  "jest": {
-    "setupFilesAfterEnv": "./src/setupTests.js"
   },
   "eslintConfig": {
     "extends": "react-app"

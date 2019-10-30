@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Resume } from "./Resume";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  RelationId
+} from "typeorm";
 
 @Entity()
 export class Education {
@@ -9,5 +16,8 @@ export class Education {
   degree: string;
 
   @Column()
-  resumeId: number;
+  uuid: string;
+
+  @ManyToOne(type => Resume, resume => resume.education)
+  resume: Resume;
 }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { addDivStyle, addH1Style } from "../Styles";
+import { addDivStyle, addH1Style, buttonStyle } from "../Styles";
 import { context } from "../App";
 
 function AddPage() {
@@ -20,10 +20,12 @@ function AddPage() {
       <h1 style={addH1Style}>Welcome to the Resume APP!</h1>
       <header style={addDivStyle}>
         <Link to="/edit">
-          <button id="add-resume" onClick={addResume}>Add Resume</button>
+          <button style={buttonStyle} id="add-resume" onClick={addResume}>
+            Add Resume
+          </button>
         </Link>
         <Link to="/select">
-          <button>Select resume</button>
+          <button style={buttonStyle}>Select resume</button>
         </Link>
       </header>
     </>

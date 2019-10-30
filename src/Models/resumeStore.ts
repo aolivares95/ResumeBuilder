@@ -2,8 +2,8 @@ import { types } from "mobx-state-tree";
 import Resume from "./Resume";
 import { observable } from "mobx";
 
-const resumeStore = types
-  .model("resumeStore", {
+export const ResumeStore = types
+  .model("ResumeStore", {
     resumes: types.array(Resume),
     id: 0,
     isSubmitted: false,
@@ -32,6 +32,6 @@ const resumeStore = types
     };
   });
 
-const rootStore = resumeStore.create();
+const rootStore = ResumeStore.create();
 
 export default observable(rootStore);

@@ -5,7 +5,8 @@ import { addDivStyle, addH1Style } from "../Styles";
 import { context } from "../App";
 
 let style = {
-  padding: "10px"
+  padding: "10px",
+  marginTop: "35px"
 };
 
 let buttonStyle = {
@@ -106,11 +107,14 @@ function EditResumePage() {
           <ul>{items}</ul>
         )}
 
-        <button onClick={handleAddEducation}>Add/view education</button>
+        <button onClick={handleAddEducation} style={{ marginTop: "30px" }}>
+          Add/view education
+        </button>
         <div style={buttonStyle}>
           <button id="preview-button" type="submit" onClick={handleSubmit}>
             Preview resume
           </button>
+          <button>Save Resume</button>
           <Link to="/">
             <button>Go back</button>
           </Link>
