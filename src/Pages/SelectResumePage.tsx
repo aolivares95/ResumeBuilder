@@ -1,15 +1,15 @@
 import * as React from "react";
 import ResumeSelectBox from "../Components/ResumeSelectBox";
 import { Link } from "react-router-dom";
-import { addDivStyle, addH1Style } from "../Styles";
+import * as styles from "../Styles";
 import { context } from "../App";
 
 function SelectResumePage() {
   const store = React.useContext(context);
   return (
     <>
-      <h1 style={addH1Style}>Select Page</h1>
-      <div style={addDivStyle}>
+      <h1 style={styles.addH1Style}>Select Page</h1>
+      <div style={styles.addDivStyle}>
         {store.getResume(0) ? (
           <Link to="/edit">
             <button>Edit resume</button>

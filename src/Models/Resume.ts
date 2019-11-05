@@ -1,4 +1,4 @@
-import { types } from "mobx-state-tree";
+import { types, Instance, getSnapshot } from "mobx-state-tree";
 
 const Resume = types
   .model("Resume", {
@@ -16,6 +16,9 @@ const Resume = types
       },
       addName(newName: string) {
         self.name = newName;
+      },
+      addId(id: number) {
+        self.id = id;
       },
       saveEducation() {
         self.educationArray.push(self.education);
@@ -38,3 +41,5 @@ const Resume = types
   });
 
 export default Resume;
+export type IResume = Instance<typeof Resume>;
+// export const ResumeSnapshot = getSnapshot(Resume.create({ id: 0 }));

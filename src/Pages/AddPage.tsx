@@ -1,31 +1,31 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { addDivStyle, addH1Style, buttonStyle } from "../Styles";
+import * as styles from "../Styles";
 import { context } from "../App";
 
 function AddPage() {
   const store = React.useContext(context);
-  const addResume = (event: any) => {
-    store.addResume({
-      name: "",
-      phoneNumber: "",
-      education: "",
-      educationArray: []
-    });
+  
+  const addResume = () => {
+    store.addResume("");
     store.setSelectedResume(store.id - 1);
   };
 
   return (
     <>
-      <h1 style={addH1Style}>Welcome to the Resume APP!</h1>
-      <header style={addDivStyle}>
+      <h1 style={styles.addH1Style}>Welcome to the Resume APP!</h1>
+      <header style={styles.addDivStyle}>
         <Link to="/edit">
-          <button style={buttonStyle} id="add-resume" onClick={addResume}>
+          <button
+            style={styles.buttonStyle}
+            id="add-resume"
+            onClick={addResume}
+          >
             Add Resume
           </button>
         </Link>
         <Link to="/select">
-          <button style={buttonStyle}>Select resume</button>
+          <button style={styles.buttonStyle}>Select resume</button>
         </Link>
       </header>
     </>

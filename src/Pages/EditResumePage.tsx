@@ -95,19 +95,38 @@ function EditResumePage() {
         style={{ display: "grid", justifyItems: "center", minHeight: "50vh" }}
       >
         <label style={style}>Please enter your name</label>
-        <input onChange={handleInput} name="enterName" type="text" />
+        <input
+          id="name-input"
+          onChange={handleInput}
+          name="enterName"
+          type="text"
+        />
         <label style={style}>Please enter your phone number</label>
 
-        <input name="enterNumber" type="text" onChange={handleInput} />
+        <input
+          id="number-input"
+          name="enterNumber"
+          type="text"
+          onChange={handleInput}
+        />
         <label style={style}>Please enter your education history</label>
 
         {!store.isEducationSubmitted ? (
-          <input name="enterEducation" type="text" onChange={handleInput} />
+          <input
+            id="edu-input"
+            name="enterEducation"
+            type="text"
+            onChange={handleInput}
+          />
         ) : (
-          <ul>{items}</ul>
+          <ul id="view-education">{items}</ul>
         )}
 
-        <button onClick={handleAddEducation} style={{ marginTop: "30px" }}>
+        <button
+          id="submit-education"
+          onClick={handleAddEducation}
+          style={{ marginTop: "30px" }}
+        >
           Add/view education
         </button>
         <div style={buttonStyle}>
