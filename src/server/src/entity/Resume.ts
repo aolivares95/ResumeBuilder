@@ -9,7 +9,7 @@ export class Resume {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ unique: true })
   uuid: string;
 
   @Column()

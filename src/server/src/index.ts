@@ -4,13 +4,14 @@ import { createConnection } from "typeorm";
 import { Resume } from "./entity/Resume";
 import * as UUID from "uuid";
 import { Education } from "./entity/Education";
+import "reflect-metadata";
 
 const connection = createPool({
   host: "localhost", // Your connection adress (localhost).
   user: "fake", // Your database's username.
   port: 3306,
   password: "pass123", // Your database's password.
-  database: "resumedb" // Your database's name.
+  database: "resume_db" // Your database's name.
 });
 
 const app = express();

@@ -4,7 +4,7 @@
   "port": 3306,
   "username": "fake",
   "password": "pass123",
-  "database": "resumedb",
+  "database": "resume_db",
   "synchronize": false,
   "logging": true,
   "entities": ["src/entity/**/*.ts"],

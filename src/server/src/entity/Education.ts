@@ -15,7 +15,7 @@ export class Education {
   @Column()
   degree: string;
 
-  @Column()
+  @Column({ unique: true })
   uuid: string;
 
   @ManyToOne(type => Resume, resume => resume.education)
