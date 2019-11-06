@@ -1,5 +1,4 @@
 {
-  "extends": "C:/Users/AJ/reactProjects/resume/src/server/tsconfig.json",
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext", "es6"],
@@ -16,6 +15,5 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src"],
-  "exclude": ["src/server"]
+  "include": ["src/Components/*", "src/Pages", "src/Models", "src/Tests"]
 }

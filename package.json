@@ -18,14 +18,15 @@
     "react-scripts": "3.1.2",
     "typeface-roboto": "^0.0.75",
     "typeorm": "^0.2.19",
-    "typescript": "3.6.2"
+    "typescript": "3.6.2",
+    "reflect-metadata": "^0.1.10"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node ./src/server/node_modules/typeorm/cli.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,7 +56,6 @@
     "@types/express": "^4.17.1",
     "@types/mysql": "^2.15.7",
     "@types/uuid": "^3.4.5",
-    "reflect-metadata": "^0.1.10",
     "express": "^4.17.1",
     "uuid": "^3.3.3"
   }
