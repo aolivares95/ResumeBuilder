@@ -1,10 +1,9 @@
-import * as express from "express";
+import express from "express";
 import { createPool } from "mysql";
 import { createConnection } from "typeorm";
 import { Resume } from "./entity/Resume";
 import * as UUID from "uuid";
 import { Education } from "./entity/Education";
-import "reflect-metadata";
 
 const connection = createPool({
   host: "localhost", // Your connection adress (localhost).

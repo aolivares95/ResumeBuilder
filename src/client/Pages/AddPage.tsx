@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import * as styles from "../Styles";
-import { context } from "../App";
+import { context } from "../../App";
 
 function AddPage() {
   const store = React.useContext(context);

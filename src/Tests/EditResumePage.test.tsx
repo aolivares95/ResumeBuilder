@@ -2,8 +2,8 @@ import { ReactWrapper, mount } from "enzyme";
 import { context } from "../App";
 import React from "react";
 import { MemoryRouter } from "react-router";
-import EditResumePage from "../Pages/EditResumePage";
-import rootStore from "../Models/ResumeStore";
+import EditResumePage from "../client/Pages/EditResumePage";
+import rootStore from "../client/Models/ResumeStore";
 
 describe("Edit Resume Page tests", () => {
   let wrapper: ReactWrapper;

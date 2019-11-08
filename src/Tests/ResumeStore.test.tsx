@@ -1,4 +1,4 @@
-import { ResumeStore } from "../Models/ResumeStore";
+import { ResumeStore } from "../client/Models/ResumeStore";
 
 describe("Resume Store tests", () => {
   let rootStore: any;

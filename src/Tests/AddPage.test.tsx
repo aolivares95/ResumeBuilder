@@ -1,9 +1,9 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
-import AddPage from "../Pages/AddPage";
+import AddPage from "../client/Pages/AddPage";
 import { MemoryRouter } from "react-router-dom";
 import { context } from "../App";
-import rootStore from "../Models/ResumeStore";
+import rootStore from "../client/Models/ResumeStore";
 
 describe("Add page tests", () => {
   let wrapper: ReactWrapper;

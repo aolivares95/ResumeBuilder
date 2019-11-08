@@ -2,7 +2,7 @@ import * as React from "react";
 import ResumeSelectBox from "../Components/ResumeSelectBox";
 import { Link } from "react-router-dom";
 import * as styles from "../Styles";
-import { context } from "../App";
+import { context } from "../../App";
 
 function SelectResumePage() {
   const store = React.useContext(context);

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { context } from "../App";
+import { context } from "../../App";
 
 function ResumeSelectBox() {
   const store = React.useContext(context);

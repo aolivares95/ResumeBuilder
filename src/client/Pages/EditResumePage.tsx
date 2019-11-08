@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { addDivStyle, addH1Style } from "../Styles";
-import { context } from "../App";
+import { context } from "../../App";
 
 let style = {
   padding: "10px",

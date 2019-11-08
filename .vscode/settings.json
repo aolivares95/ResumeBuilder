@@ -1,4 +1,7 @@
 {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.enable": false,
+  "eslint.packageManager": "yarn",
+  "eslint.lintTask.options": "--ignore-path C:/Users/AJ/reactProjects/resume/.eslintignore"
 }

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
-import EditResumePage from "./Pages/EditResumePage";
+import EditResumePage from "./client/Pages/EditResumePage";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import AddPage from "./Pages/AddPage";
-import SelectResumePage from "./Pages/SelectResumePage";
+import AddPage from "./client/Pages/AddPage";
+import SelectResumePage from "./client/Pages/SelectResumePage";
 import { AppBar, Toolbar } from "@material-ui/core";
-import rootStore from "./Models/ResumeStore";
+import rootStore from "./client/Models/ResumeStore";
 
 export const context = React.createContext(rootStore);
 
