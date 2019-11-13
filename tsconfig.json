@@ -35,5 +35,5 @@
     "src/App.tsx",
     "src/index.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "server/**/*"]
 }

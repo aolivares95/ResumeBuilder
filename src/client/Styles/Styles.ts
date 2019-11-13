@@ -1,20 +1,22 @@
-let addDivStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  minHeight: "80vh"
-};
+import { createStyles } from "@material-ui/core";
 
-let addH1Style = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontFamily: "Roboto",
-  marginTop: "90px"
-};
+export const defaultStyles = createStyles({
+  addDivStyle: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "80vh"
+  },
 
-let buttonStyle = {
-  fontFamily: "Roboto"
-};
+  addH1Style: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "Roboto",
+    marginTop: "90px"
+  },
 
-export { addDivStyle, addH1Style, buttonStyle };
+  buttonStyle: {
+    fontFamily: "Roboto"
+  }
+});

@@ -1,11 +1,14 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import * as styles from "../Styles";
 import { context } from "../../App";
+import { WithStyles, withStyles } from "@material-ui/core";
+import { defaultStyles } from "../Styles";
 
-function AddPage() {
+interface IAddPage extends WithStyles<typeof defaultStyles> {}
+
+const AddPage = ({ classes }: any) => {
   const store = React.useContext(context);
-  
+
   const addResume = () => {
     store.addResume("");
     store.setSelectedResume(store.id - 1);
@@ -13,11 +16,11 @@ function AddPage() {
 
   return (
     <>
-      <h1 style={styles.addH1Style}>Welcome to the Resume APP!</h1>
-      <header style={styles.addDivStyle}>
+      <h1 className={classes.addH1Style}>Welcome to the Resume APP!</h1>
+      <header className={classes.addDivStyle}>
         <Link to="/edit">
           <button
-            style={styles.buttonStyle}
+            className={classes.buttonStyle}
             id="add-resume"
             onClick={addResume}
           >
@@ -25,11 +28,11 @@ function AddPage() {
           </button>
         </Link>
         <Link to="/select">
-          <button style={styles.buttonStyle}>Select resume</button>
+          <button className={classes.buttonStyle}>Select resume</button>
         </Link>
       </header>
     </>
   );
-}
+};
 
-export default AddPage;
+export default withStyles(defaultStyles)(AddPage);

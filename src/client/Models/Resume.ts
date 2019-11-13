@@ -1,5 +1,5 @@
 import { types, Instance, getSnapshot } from "mobx-state-tree";
-import { saveEducation, saveResume } from "../../server/src/index";
+//import { saveEducation, saveResume } from "../../server/src/index";
 
 const Resume = types
   .model("Resume", {
@@ -32,11 +32,12 @@ const Resume = types
         self.phoneNumber = "";
         self.educationArray.clear();
         self.education = "";
-      },
+      } /*
       save() {
         saveResume(self.name, self.phoneNumber);
         saveEducation(self.educationArray, self.uuid);
-      }
+        
+      }*/
     };
   });
 

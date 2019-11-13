@@ -1,15 +1,17 @@
 import * as React from "react";
 import ResumeSelectBox from "../Components/ResumeSelectBox";
 import { Link } from "react-router-dom";
-import * as styles from "../Styles";
 import { context } from "../../App";
+import { WithStyles, withStyles } from "@material-ui/core";
+import { defaultStyles } from "../Styles";
 
-function SelectResumePage() {
+interface IAddPage extends WithStyles {}
+function SelectResumePage(classes: any) {
   const store = React.useContext(context);
   return (
     <>
-      <h1 style={styles.addH1Style}>Select Page</h1>
-      <div style={styles.addDivStyle}>
+      <h1 style={classes.addH1Style}>Select Page</h1>
+      <div style={classes.addDivStyle}>
         {store.getResume(0) ? (
           <Link to="/edit">
             <button>Edit resume</button>
@@ -26,4 +28,4 @@ function SelectResumePage() {
   );
 }
 
-export default SelectResumePage;
+export default withStyles(defaultStyles)(SelectResumePage);
