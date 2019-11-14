@@ -2,6 +2,9 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { context } from "../../App";
+import { getSnapshot } from "mobx-state-tree";
+import Resume from "../Models/Resume";
+import axios from "axios";
 
 let style = {
   padding: "10px",
@@ -80,6 +83,11 @@ function EditResumePage() {
     store.getResume(store.selectedResume).clearResume();
   }
 
+  function saveResume() {
+    const resSnap = getSnapshot(store.getResume(store.selectedResume));
+    axios.post("http://localhost:5000/api/addResume", { resSnap });
+  }
+
   let items;
   if (store.getResume(store.selectedResume)) {
     items = store
@@ -132,7 +140,7 @@ function EditResumePage() {
           <button id="preview-button" type="submit" onClick={handleSubmit}>
             Preview resume
           </button>
-          <button>Save Resume</button>
+          <button onClick={saveResume}>Save Resume</button>
           <Link to="/">
             <button>Go back</button>
           </Link>

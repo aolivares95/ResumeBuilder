@@ -4,6 +4,7 @@ import { createConnection } from "typeorm";
 import { Resume } from "./entity/Resume";
 import * as UUID from "uuid";
 import { Education } from "./entity/Education";
+// import { Education } from "./entity/Education";
 
 const connection = createPool({
   host: "localhost", // Your connection adress (localhost).
@@ -29,15 +30,41 @@ app.get("/resume", function(req: any, res: any) {
   });
 });
 
-app.get("/education", function(req: any, res: { send: (arg0: any) => void }) {
+app.post("/addResume", (req, res) => {
+  const { name, phoneNumber } = req.body;
+  createConnection().then(async connection => {
+    let resRepository = connection.getRepository(Resume);
+    await resRepository.save({
+      name: name,
+      phoneNumber: phoneNumber,
+      uuid: UUID.v4()
+    });
+  });
+});
+
+app.post("/addEducation", (req, res) => {
+  createConnection().then(async connection => {
+    const { degree, resumeId } = req.body;
+
+    let resRespository = await connection.getRepository(Resume);
+    resRespository.findOneOrFail(resumeId);
+
+    let eduRepository = connection.getRepository(Education);
+    degree.forEach(async (item: string) => {
+      await eduRepository.save({
+        degree: item,
+        uuid: UUID.v4(),
+        resumeId: resumeId
+      });
+    });
+  });
+});
+
+app.get("/education", function(req: any, res: any) {
   // Connecting to the database.
   connection.getConnection(function(err, connection) {
     // Executing the MySQL query (select all data from the 'users' table).
-    connection.query("SELECT * FROM education", function(
-      error,
-      results,
-      fields
-    ) {
+    connection.query("SELECT * FROM education", function(error, results) {
       // If some error occurs, we throw an error.
       if (error) throw error;
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
@@ -51,30 +78,30 @@ app.listen(5000, () => {
   console.log("Go to http://localhost:5000/resume so you can see the data.");
 });
 
-export const saveResume = (name2: string, phoneNumber2: string) => {
-  createConnection().then(async connection => {
-    let resRepository = connection.getRepository(Resume);
-    await resRepository.save({
-      name: name2,
-      phoneNumber: phoneNumber2,
-      uuid: UUID.v4()
-    });
-  });
-};
+// export const saveResume = (name2: string, phoneNumber2: string) => {
+//   createConnection().then(async connection => {
+//     let resRepository = connection.getRepository(Resume);
+//     await resRepository.save({
+//       name: name2,
+//       phoneNumber: phoneNumber2,
+//       uuid: UUID.v4()
+//     });
+//   });
+// };
 
-export const saveEducation = (degree2: string[], resumeUUID: string) => {
-  createConnection().then(async connection => {
-    let currentRes: Resume;
-    let resRespository = await connection.getRepository(Resume);
-    resRespository.findOneOrFail(resumeUUID).then(res => currentRes);
+// export const saveEducation = (degree2: string[], resumeUUID: string) => {
+//   createConnection().then(async connection => {
+//     let currentRes: Resume;
+//     let resRespository = await connection.getRepository(Resume);
+//     resRespository.findOneOrFail(resumeUUID).then(res => currentRes);
 
-    let eduRepository = connection.getRepository(Education);
-    degree2.forEach(async item => {
-      await eduRepository.save({
-        degree: item,
-        uuid: UUID.v4(),
-        resume: currentRes
-      });
-    });
-  });
-};
+//     let eduRepository = connection.getRepository(Education);
+//     degree2.forEach(async item => {
+//       await eduRepository.save({
+//         degree: item,
+//         uuid: UUID.v4(),
+//         resume: currentRes
+//       });
+//     });
+//   });
+// }
