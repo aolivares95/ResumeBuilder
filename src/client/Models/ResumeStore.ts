@@ -1,6 +1,7 @@
 import { types } from "mobx-state-tree";
 import Resume, { IResume } from "./Resume";
 import { observable } from "mobx";
+import { EducationStore } from "./EducationStore";
 
 export const ResumeStore = types
   .model("ResumeStore", {
@@ -8,18 +9,16 @@ export const ResumeStore = types
     id: 0,
     isSubmitted: false,
     isEducationSubmitted: false,
-    selectedResume: 0
+    selectedResume: 0,
+    //EducationStore: types.model("EducationStore")
   })
   .actions(self => {
     return {
       addResume(newResume: string) {
         let current = Resume.create({ id: self.id });
         current.addName(newResume);
-        this.push(current);
-        this.incrementId();
-      },
-      push(newResume: IResume) {
-        self.resumes.push(newResume);
+        self.resumes.push(current);
+        self.id++;
       },
       getResume(id: number) {
         return self.resumes[id];
@@ -32,9 +31,6 @@ export const ResumeStore = types
       },
       setSelectedResume(sel: number) {
         self.selectedResume = sel;
-      },
-      incrementId() {
-        self.id++;
       }
     };
   });

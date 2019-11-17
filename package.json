@@ -25,6 +25,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-server": "cd ./server && ts-node index.ts",
+    "start-dev": "npm-run-all -p start-server start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

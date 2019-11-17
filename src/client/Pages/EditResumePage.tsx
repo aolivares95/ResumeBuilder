@@ -5,6 +5,7 @@ import { context } from "../../App";
 import { getSnapshot } from "mobx-state-tree";
 import Resume from "../Models/Resume";
 import axios from "axios";
+import { json } from "body-parser";
 
 let style = {
   padding: "10px",
@@ -83,9 +84,11 @@ function EditResumePage() {
     store.getResume(store.selectedResume).clearResume();
   }
 
-  function saveResume() {
+  function saveResume(event: any) {
+    event.preventDefault();
     const resSnap = getSnapshot(store.getResume(store.selectedResume));
-    axios.post("http://localhost:5000/api/addResume", { resSnap });
+    console.log("Resume snapshot:************" + JSON.stringify(resSnap));
+    axios.post("http://localhost:5000/addResume", resSnap);
   }
 
   let items;

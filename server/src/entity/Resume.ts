@@ -15,6 +15,9 @@ export class Resume {
   @Column()
   phoneNumber: string;
 
-  @OneToMany(type => Education, education => education.resume)
-  education: Education;
+  @OneToMany(
+    type => Education,
+    education => education.resume
+  )
+  education: Education[];
 }
