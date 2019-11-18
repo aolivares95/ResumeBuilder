@@ -19,7 +19,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 app.get("/resume", function(req: any, res: any) {
   // Connecting to the database.
   connection.getConnection(function(err, connection) {

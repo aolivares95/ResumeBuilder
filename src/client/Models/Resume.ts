@@ -1,4 +1,4 @@
-import { types, Instance, getSnapshot } from "mobx-state-tree";
+import { types, Instance } from "mobx-state-tree";
 //import { saveEducation, saveResume } from "../../server/src/index";
 
 const Resume = types
@@ -8,7 +8,7 @@ const Resume = types
     phoneNumber: types.optional(types.string, ""),
     education: types.optional(types.string, ""),
     educationArray: types.optional(types.array(types.string), []),
-    uuid: types.optional(types.string, "")
+    uuid: types.identifier
   })
   .actions(self => {
     return {

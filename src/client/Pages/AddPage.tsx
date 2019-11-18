@@ -1,17 +1,17 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { context } from "../../App";
-import { WithStyles, withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import { defaultStyles } from "../Styles";
 
-interface IAddPage extends WithStyles<typeof defaultStyles> {}
+//interface IAddPage extends WithStyles<typeof defaultStyles> {}
 
 const AddPage = ({ classes }: any) => {
   const store = React.useContext(context);
 
   const addResume = () => {
-    store.addResume("");
-    store.setSelectedResume(store.id - 1);
+    let current = store.addResume("");
+    store.setSelectedResume(current);
   };
 
   return (

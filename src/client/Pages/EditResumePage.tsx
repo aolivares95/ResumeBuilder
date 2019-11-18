@@ -23,39 +23,39 @@ let buttonStyle = {
 
 function EditResumePage() {
   const store = React.useContext(context);
+  const currentRes = store.getResume(store.selectedResume!.uuid)!;
+
   function handleInput(event: any) {
     const target = event.target;
     const name = target.name;
 
     if (name === "enterName") {
-      store.getResume(store.selectedResume).addName(target.value);
+      currentRes.addName(target.value);
     } else if (name === "enterNumber") {
-      store.getResume(store.selectedResume).addPhoneNumber(target.value);
+      currentRes.addPhoneNumber(target.value);
     } else {
-      store.getResume(store.selectedResume).addEducation(target.value);
+      currentRes.addEducation(target.value);
     }
   }
 
   function displayInput() {
     let items;
-    if (store.getResume(store.selectedResume)) {
-      items = store
-        .getResume(store.selectedResume)
-        .educationArray.map((item: string) => (
-          <li style={{ listStyleType: "none" }}>{item}</li>
-        ));
+    if (currentRes) {
+      items = currentRes.educationArray.map((item: string) => (
+        <li style={{ listStyleType: "none" }}>{item}</li>
+      ));
     } else {
       items = <li></li>;
     }
 
-    if (store.getResume(store.selectedResume)) {
+    if (currentRes) {
       return (
         <>
           <ul>
             <h1>Your name:</h1>
-            <label>{store.getResume(store.selectedResume).name}</label>
+            <label>{currentRes.name}</label>
             <h1>Your number:</h1>
-            <label>{store.getResume(store.selectedResume).phoneNumber}</label>
+            <label>{currentRes.phoneNumber}</label>
             <h1>Your education: </h1>
             {items}
           </ul>
@@ -72,30 +72,30 @@ function EditResumePage() {
   }
   function handleAddEducation(event: any) {
     event.preventDefault();
-    if (store.getResume(store.selectedResume).education !== "") {
-      store.getResume(store.selectedResume).saveEducation();
+    if (currentRes.education !== "") {
+      currentRes.saveEducation();
     }
-    store.getResume(store.selectedResume).addEducation(event.target.value);
+    currentRes.addEducation(event.target.value);
     store.setIsEducationSubmitted(!store.isEducationSubmitted);
   }
 
   function handleClearResume(event: any) {
     event.preventDefault();
-    store.getResume(store.selectedResume).clearResume();
+    currentRes.clearResume();
   }
 
   function saveResume(event: any) {
     event.preventDefault();
-    const resSnap = getSnapshot(store.getResume(store.selectedResume));
+    const resSnap = getSnapshot(currentRes);
     console.log("Resume snapshot:************" + JSON.stringify(resSnap));
-    axios.post("http://localhost:5000/addResume", resSnap);
+    axios
+      .post("http://localhost:5000/addResume", resSnap)
+      .catch(() => console.log("Post failed..."));
   }
 
   let items;
-  if (store.getResume(store.selectedResume)) {
-    items = store
-      .getResume(store.selectedResume)
-      .educationArray.map((item: string) => <li>{item}</li>);
+  if (currentRes) {
+    items = currentRes.educationArray.map((item: string) => <li>{item}</li>);
   } else {
     items = <li></li>;
   }
