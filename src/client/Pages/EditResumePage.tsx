@@ -2,10 +2,6 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { context } from "../../App";
-import { getSnapshot } from "mobx-state-tree";
-import Resume from "../Models/Resume";
-import axios from "axios";
-import { json } from "body-parser";
 
 let style = {
   padding: "10px",
@@ -23,7 +19,7 @@ let buttonStyle = {
 
 function EditResumePage() {
   const store = React.useContext(context);
-  const currentRes = store.getResume(store.selectedResume!.uuid)!;
+  const currentRes = store.selectedResume!;
 
   function handleInput(event: any) {
     const target = event.target;
@@ -86,11 +82,7 @@ function EditResumePage() {
 
   function saveResume(event: any) {
     event.preventDefault();
-    const resSnap = getSnapshot(currentRes);
-    console.log("Resume snapshot:************" + JSON.stringify(resSnap));
-    axios
-      .post("http://localhost:5000/addResume", resSnap)
-      .catch(() => console.log("Post failed..."));
+    store.saveResume(currentRes);
   }
 
   let items;

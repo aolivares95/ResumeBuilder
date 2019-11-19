@@ -3,7 +3,7 @@ import { types, Instance } from "mobx-state-tree";
 
 const Resume = types
   .model("Resume", {
-    id: types.number,
+    id: types.maybe(types.number),
     name: types.optional(types.string, ""),
     phoneNumber: types.optional(types.string, ""),
     education: types.optional(types.string, ""),
