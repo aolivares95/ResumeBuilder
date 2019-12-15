@@ -9,13 +9,15 @@ import { defaultStyles } from "../Styles";
 const SelectResumePage = ({ classes }: any) => {
   const store = React.useContext(context);
 
-  store.fetchRes();
+  React.useEffect(() => {
+    store.fetchRes();
+  }, []);
 
   return (
     <>
       <h1 className={classes.addH1Style}>Select Page</h1>
       <div className={classes.addDivStyle}>
-        {store.resumes.length > 0 ? (
+        {store.itemsInResume ? (
           <Link to="/edit">
             <button>Edit resume</button>
           </Link>

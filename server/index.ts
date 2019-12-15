@@ -3,7 +3,6 @@ import * as express from "express";
 import { createPool } from "mysql";
 import { createConnection, getConnection } from "typeorm";
 import { Resume } from "./src/entity/Resume";
-import * as UUID from "uuid";
 import { Education } from "./src/entity/Education";
 import * as bodyParser from "body-parser";
 
@@ -48,19 +47,28 @@ app.get("/education", function(req: any, res: any) {
 
 app.post("/addResume", (req, res) => {
   console.log("REQ BODY**********:" + req.body);
-  const { name, phoneNumber } = req.body;
+  const { name, phoneNumber, id, uuid } = req.body;
   console.log("Resume saved **********:" + JSON.stringify(req.body));
 
   let resRepository = getConnection("ORM").getRepository(Resume);
-  resRepository.save({
-    name: name,
-    phoneNumber: phoneNumber,
-    uuid: UUID.v4()
-  });
+  if (id) {
+    resRepository.save({
+      id: id,
+      name: name,
+      phoneNumber: phoneNumber,
+      uuid: uuid
+    });
+  } else {
+    resRepository.save({
+      name: name,
+      phoneNumber: phoneNumber,
+      uuid: uuid
+    });
+  }
 });
 
 app.post("/addEducation", (req, res) => {
-  const { degree, resumeId } = req.body;
+  const { degree, resumeId, uuid } = req.body;
 
   let resRepository = getConnection("ORM").getRepository(Resume);
   resRepository.findOneOrFail(resumeId);
@@ -69,7 +77,7 @@ app.post("/addEducation", (req, res) => {
   degree.forEach(async (item: string) => {
     await eduRepository.save({
       degree: item,
-      uuid: UUID.v4(),
+      uuid: uuid,
       resumeId: resumeId
     });
   });

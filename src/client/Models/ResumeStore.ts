@@ -1,14 +1,13 @@
 import { types, getSnapshot, applySnapshot } from "mobx-state-tree";
 import Resume, { IResume } from "./Resume";
 import { observable, flow } from "mobx";
-import { EducationStore } from "./EducationStore";
 import * as UUID from "uuid";
 import axios from "axios";
 
 export const ResumeStore = types
   .model("ResumeStore", {
     resumes: types.array(Resume),
-    id: 0,
+    id: types.maybe(types.number),
     isSubmitted: false,
     isEducationSubmitted: false,
     selectedResume: types.maybe(types.reference(Resume)),
@@ -33,11 +32,17 @@ export const ResumeStore = types
 
         console.log("Resume map:%%%$%$%%$% " + JSON.stringify(self.resumeMap));
       },
+      addToMap(newRes: IResume) {
+        self.resumeMap.put(newRes);
+      },
       fetchRes() {
         self.resumes.clear();
         self.resumeMap.clear();
         this.fetchResumes().then(data => {
           applySnapshot(self.resumes, data);
+          self.resumes.forEach(item => {
+            this.addToMap(item);
+          });
         });
         console.log("Resume map:%%%$%$%%$% " + JSON.stringify(self.resumes));
       },
@@ -53,12 +58,16 @@ export const ResumeStore = types
         current.addName(newResume);
         this.add(current);
         this.saveResume(current);
-        // self.id++;
         return current;
       },
 
       getResume(uuid: string) {
         return self.resumeMap.get(uuid);
+      },
+      itemsInResume() {
+        if (self.resumes.length > 0) {
+          return true;
+        } else return false;
       },
       setIsSubmitted(newIsSubmitted: boolean) {
         self.isSubmitted = newIsSubmitted;

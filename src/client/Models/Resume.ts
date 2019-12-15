@@ -32,12 +32,7 @@ const Resume = types
         self.phoneNumber = "";
         self.educationArray.clear();
         self.education = "";
-      } /*
-      save() {
-        saveResume(self.name, self.phoneNumber);
-        saveEducation(self.educationArray, self.uuid);
-        
-      }*/
+      }
     };
   });
 
