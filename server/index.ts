@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import * as express from "express";
 import { createPool } from "mysql";
-import { createConnection } from "typeorm";
+import { createConnection, getConnection } from "typeorm";
 import { Resume } from "./src/entity/Resume";
 import * as UUID from "uuid";
 import { Education } from "./src/entity/Education";
@@ -15,6 +15,7 @@ const connection = createPool({
   database: "resume_db" // Your database's name.
 });
 
+createConnection("ORM");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -49,30 +50,27 @@ app.post("/addResume", (req, res) => {
   console.log("REQ BODY**********:" + req.body);
   const { name, phoneNumber } = req.body;
   console.log("Resume saved **********:" + JSON.stringify(req.body));
-  createConnection().then(async connection => {
-    let resRepository = connection.getRepository(Resume);
-    await resRepository.save({
-      name: name,
-      phoneNumber: phoneNumber,
-      uuid: UUID.v4()
-    });
+
+  let resRepository = getConnection("ORM").getRepository(Resume);
+  resRepository.save({
+    name: name,
+    phoneNumber: phoneNumber,
+    uuid: UUID.v4()
   });
 });
 
 app.post("/addEducation", (req, res) => {
-  createConnection().then(async connection => {
-    const { degree, resumeId } = req.body;
+  const { degree, resumeId } = req.body;
 
-    let resRespository = await connection.getRepository(Resume);
-    resRespository.findOneOrFail(resumeId);
+  let resRepository = getConnection("ORM").getRepository(Resume);
+  resRepository.findOneOrFail(resumeId);
 
-    let eduRepository = connection.getRepository(Education);
-    degree.forEach(async (item: string) => {
-      await eduRepository.save({
-        degree: item,
-        uuid: UUID.v4(),
-        resumeId: resumeId
-      });
+  let eduRepository = getConnection("ORM").getRepository(Education);
+  degree.forEach(async (item: string) => {
+    await eduRepository.save({
+      degree: item,
+      uuid: UUID.v4(),
+      resumeId: resumeId
     });
   });
 });
