@@ -16,36 +16,24 @@ export const ResumeStore = types
   })
   .actions(self => {
     return {
+      addToMap(array: IResume[]) {
+        array.forEach(item => {
+          self.resumeMap.put(item);
+        });
+      },
       fetchResumes: flow(function* fetchResumes() {
-        let temp: any[] = [];
         yield fetch("http://localhost:5000/resume")
           .then(result => result.json())
           .then(data => {
-            data.map((item: any) => temp.push(item));
+            applySnapshot(self.resumes, data);
           });
-        console.log("Fetched resumes:" + JSON.stringify(temp));
-        return temp;
+        return self.resumes;
       }),
       add(newRes: IResume) {
         self.resumes.push(newRes);
         self.resumeMap.put(newRes);
+      },
 
-        console.log("Resume map:%%%$%$%%$% " + JSON.stringify(self.resumeMap));
-      },
-      addToMap(newRes: IResume) {
-        self.resumeMap.put(newRes);
-      },
-      fetchRes() {
-        self.resumes.clear();
-        self.resumeMap.clear();
-        this.fetchResumes().then(data => {
-          applySnapshot(self.resumes, data);
-          self.resumes.forEach(item => {
-            this.addToMap(item);
-          });
-        });
-        console.log("Resume map:%%%$%$%%$% " + JSON.stringify(self.resumes));
-      },
       saveResume(currentRes: IResume) {
         const resSnap = getSnapshot(currentRes);
         axios
@@ -76,7 +64,6 @@ export const ResumeStore = types
         self.isEducationSubmitted = newIsEducationSubmitted;
       },
       setSelectedResume(sel: IResume) {
-        console.log("Selected resume$$$$$: " + JSON.stringify(sel));
         self.selectedResume = sel;
       }
     };

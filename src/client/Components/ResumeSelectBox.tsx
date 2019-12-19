@@ -13,11 +13,21 @@ function ResumeSelectBox() {
   ));
 
   const handleSelect = (event: any) => {
-    console.log("Event target value:     " + event.target.value);
     store.setSelectedResume(store.getResume(event.target.value)!);
   };
 
-  return <select onChange={handleSelect}>{items}</select>;
+  return (
+    <select defaultValue={""} onChange={handleSelect}>
+      {store.selectedResume ? (
+        <option>
+          SELECTED: {store.selectedResume.id}:{store.selectedResume.name}
+        </option>
+      ) : (
+        <option>Select a Resume to edit</option>
+      )}
+      {items}
+    </select>
+  );
 }
 
 export default observer(ResumeSelectBox);

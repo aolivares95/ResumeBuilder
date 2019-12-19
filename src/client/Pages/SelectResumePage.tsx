@@ -10,8 +10,10 @@ const SelectResumePage = ({ classes }: any) => {
   const store = React.useContext(context);
 
   React.useEffect(() => {
-    store.fetchRes();
-  }, []);
+    store.fetchResumes().then(data => {
+      store.addToMap(data);
+    });
+  }, [store]);
 
   return (
     <>

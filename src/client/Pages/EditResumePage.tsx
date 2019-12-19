@@ -12,10 +12,8 @@ let buttonStyle = {
   padding: "20px"
 };
 
-//add more fields for things to match real resume
-//add styles
-//add backend
-//add tests
+
+
 
 function EditResumePage() {
   const store = React.useContext(context);

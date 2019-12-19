@@ -7,11 +7,11 @@ import { Education } from "./src/entity/Education";
 import * as bodyParser from "body-parser";
 
 const connection = createPool({
-  host: "localhost", // Your connection adress (localhost).
-  user: "fake", // Your database's username.
+  host: "localhost",
+  user: "fake",
   port: 3306,
-  password: "pass123", // Your database's password.
-  database: "resume_db" // Your database's name.
+  password: "pass123",
+  database: "resume_db"
 });
 
 createConnection("ORM");
@@ -20,51 +20,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/resume", function(req: any, res: any) {
-  // Connecting to the database.
   connection.getConnection(function(err, connection) {
-    // Executing the MySQL query.
     connection.query("SELECT * FROM resume", function(error, results, fields) {
-      // If some error occurs, we throw an error.
       if (error) throw error;
-      // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
     });
   });
 });
 
 app.get("/education", function(req: any, res: any) {
-  // Connecting to the database.
   connection.getConnection(function(err, connection) {
-    // Executing the MySQL query (select all data from the 'users' table).
     connection.query("SELECT * FROM education", function(error, results) {
-      // If some error occurs, we throw an error.
       if (error) throw error;
-      // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
     });
   });
 });
 
 app.post("/addResume", (req, res) => {
-  console.log("REQ BODY**********:" + req.body);
   const { name, phoneNumber, id, uuid } = req.body;
-  console.log("Resume saved **********:" + JSON.stringify(req.body));
 
   let resRepository = getConnection("ORM").getRepository(Resume);
-  if (id) {
-    resRepository.save({
-      id: id,
-      name: name,
-      phoneNumber: phoneNumber,
-      uuid: uuid
-    });
-  } else {
-    resRepository.save({
-      name: name,
-      phoneNumber: phoneNumber,
-      uuid: uuid
-    });
-  }
+
+  resRepository.save({
+    id: id,
+    name: name,
+    phoneNumber: phoneNumber,
+    uuid: uuid
+  });
 });
 
 app.post("/addEducation", (req, res) => {
