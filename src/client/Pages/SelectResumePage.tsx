@@ -5,13 +5,12 @@ import { context } from "../../App";
 import { withStyles } from "@material-ui/core";
 import { defaultStyles } from "../Styles";
 
-//interface IAddPage extends WithStyles<typeof defaultStyles> {}
 const SelectResumePage = ({ classes }: any) => {
   const store = React.useContext(context);
 
   React.useEffect(() => {
-    store.fetchResumes().then(data => {
-      store.addToMap(data);
+    store.ResumeStore.fetchResumes().then(data => {
+      store.ResumeStore.addToMap(data);
     });
   }, [store]);
 
@@ -19,7 +18,7 @@ const SelectResumePage = ({ classes }: any) => {
     <>
       <h1 className={classes.addH1Style}>Select Page</h1>
       <div className={classes.addDivStyle}>
-        {store.itemsInResume ? (
+        {store.ResumeStore.itemsInResume ? (
           <Link to="/edit">
             <button>Edit resume</button>
           </Link>

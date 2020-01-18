@@ -12,6 +12,7 @@ const AddPage = ({ classes }: any) => {
   const addResume = () => {
     let current = store.addResume("");
     store.setSelectedResume(current);
+    store.saveResume(current);
   };
 
   return (

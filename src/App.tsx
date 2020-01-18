@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddPage from "./client/Pages/AddPage";
 import SelectResumePage from "./client/Pages/SelectResumePage";
 import { AppBar, Toolbar } from "@material-ui/core";
-import rootStore from "./client/Models/ResumeStore";
+import rootStore from "./client/Models/RootStore";
 
 export const context = React.createContext(rootStore);
 

@@ -10,7 +10,7 @@ describe("Resume Store tests", () => {
     rootStore.addResume("Kittens");
     expect(rootStore.resumes[0]).toHaveProperty("name", "Kittens");
   });
-
+  /*
   it("Saves the resume when the save function is called", async () => {
     const data = {
       name: "res1",
@@ -18,10 +18,10 @@ describe("Resume Store tests", () => {
     };
     rootStore.addResume("res1");
     await rootStore.saveResume(rootStore.resumes[0]);
-    await rootStore.fetchRes().then(response => {
+    rootStore.fetchResumes().then(response => {
       console.log(response);
     });
     console.log("resumes:   " + JSON.stringify(rootStore));
     expect(rootStore.resumes[0].id).toEqual(1);
-  });
+  });*/
 });

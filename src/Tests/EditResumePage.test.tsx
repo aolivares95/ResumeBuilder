@@ -21,7 +21,7 @@ describe("Edit Resume Page tests", () => {
   });
   it("Saves the name, phone number and education history provided by the user", () => {
     rootStore.addResume("");
-    rootStore.setSelectedResume(0);
+    rootStore.setSelectedResume(rootStore.resumes[0]);
     wrapper
       .find("#name-input")
       .simulate("change", { target: { name: "enterName", value: "cats" } });
@@ -44,7 +44,7 @@ describe("Edit Resume Page tests", () => {
   });
   it("Adds and presents the users education history when the Add/view education button is clicked", () => {
     rootStore.addResume("");
-    rootStore.setSelectedResume(0);
+    rootStore.setSelectedResume(rootStore.resumes[0]);
     rootStore.setIsSubmitted(false);
     wrapper.update();
     wrapper.find("#submit-education").simulate("click");
