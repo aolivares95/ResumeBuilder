@@ -4,23 +4,23 @@ import { context } from "../../App";
 import { IResume } from "../Models/Resume";
 
 function ResumeSelectBox() {
-  const store = React.useContext(context);
+  const {resumeStore} = React.useContext(context);
 
-  const items = store.resumes.map((item: IResume) => (
+  const items = resumeStore.resumes.map((item: IResume) => (
     <option value={item.uuid}>
       {item.id}: {item.name}
     </option>
   ));
 
   const handleSelect = (event: any) => {
-    store.setSelectedResume(store.getResume(event.target.value)!);
+    resumeStore.setSelectedResume(resumeStore.getResume(event.target.value)!);
   };
 
   return (
     <select defaultValue={""} onChange={handleSelect}>
-      {store.selectedResume ? (
+      {resumeStore.selectedResume ? (
         <option>
-          SELECTED: {store.selectedResume.id}:{store.selectedResume.name}
+          SELECTED: {resumeStore.selectedResume.id}:{resumeStore.selectedResume.name}
         </option>
       ) : (
         <option>Select a Resume to edit</option>

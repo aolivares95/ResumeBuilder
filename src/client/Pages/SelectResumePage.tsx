@@ -6,19 +6,18 @@ import { withStyles } from "@material-ui/core";
 import { defaultStyles } from "../Styles";
 
 const SelectResumePage = ({ classes }: any) => {
-  const store = React.useContext(context);
+  const {resumeStore} = React.useContext(context);
 
-  React.useEffect(() => {
-    store.ResumeStore.fetchResumes().then(data => {
-      store.ResumeStore.addToMap(data);
-    });
-  }, [store]);
+ 
+    resumeStore.fetchResumes().then(data => {
+      resumeStore.addToMap(data);})
+    
 
   return (
     <>
       <h1 className={classes.addH1Style}>Select Page</h1>
       <div className={classes.addDivStyle}>
-        {store.ResumeStore.itemsInResume ? (
+        {resumeStore.itemsInResume ? (
           <Link to="/edit">
             <button>Edit resume</button>
           </Link>

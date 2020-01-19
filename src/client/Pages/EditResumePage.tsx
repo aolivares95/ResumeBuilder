@@ -16,8 +16,8 @@ let buttonStyle = {
 
 
 function EditResumePage() {
-  const store = React.useContext(context);
-  const currentRes = store.selectedResume!;
+  const {resumeStore} = React.useContext(context);
+  const currentRes = resumeStore.selectedResume!;
 
   function handleInput(event: any) {
     const target = event.target;
@@ -62,7 +62,7 @@ function EditResumePage() {
 
   function handleSubmit(event: any) {
     event.preventDefault();
-    store.setIsSubmitted(!store.isSubmitted);
+    resumeStore.setIsSubmitted(!resumeStore.isSubmitted);
   }
   function handleAddEducation(event: any) {
     event.preventDefault();
@@ -70,7 +70,7 @@ function EditResumePage() {
       currentRes.saveEducation();
     }
     currentRes.addEducation(event.target.value);
-    store.setIsEducationSubmitted(!store.isEducationSubmitted);
+    resumeStore.setIsEducationSubmitted(!resumeStore.isEducationSubmitted);
   }
 
   function handleClearResume(event: any) {
@@ -80,7 +80,7 @@ function EditResumePage() {
 
   function saveResume(event: any) {
     event.preventDefault();
-    store.saveResume(currentRes);
+    resumeStore.saveResume(currentRes);
   }
 
   let items;
@@ -89,7 +89,7 @@ function EditResumePage() {
   } else {
     items = <li></li>;
   }
-  return !store.isSubmitted ? (
+  return !resumeStore.isSubmitted ? (
     <>
       <form
         style={{ display: "grid", justifyItems: "center", minHeight: "50vh" }}
@@ -111,7 +111,7 @@ function EditResumePage() {
         />
         <label style={style}>Please enter your education history</label>
 
-        {!store.isEducationSubmitted ? (
+        {!resumeStore.isEducationSubmitted ? (
           <input
             id="edu-input"
             name="enterEducation"

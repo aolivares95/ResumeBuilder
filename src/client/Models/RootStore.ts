@@ -6,14 +6,10 @@ import { ResumeStore } from "./ResumeStore";
 
 export const RootStore = types
   .model("ResumeStore", {
-    resumes: types.array(Resume),
-    id: types.maybe(types.number),
     isSubmitted: false,
     isEducationSubmitted: false,
-    selectedResume: types.maybe(types.reference(Resume)),
-    resumeMap: types.map(types.reference(Resume)),
-    EducationStore: EducationStore,
-    ResumeStore: ResumeStore
+    educationStore: types.optional(EducationStore, {}),
+    resumeStore:types.optional(ResumeStore, {}),
   })
   .actions(self => {
     function setIsSubmitted(newIsSubmitted: boolean) {

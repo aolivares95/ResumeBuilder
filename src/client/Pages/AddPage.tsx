@@ -7,12 +7,12 @@ import { defaultStyles } from "../Styles";
 //interface IAddPage extends WithStyles<typeof defaultStyles> {}
 
 const AddPage = ({ classes }: any) => {
-  const store = React.useContext(context);
+  const {resumeStore} = React.useContext(context);
 
   const addResume = () => {
-    let current = store.addResume("");
-    store.setSelectedResume(current);
-    store.saveResume(current);
+    let current = resumeStore.addResume("");
+    resumeStore.setSelectedResume(current);
+    resumeStore.saveResume(current);
   };
 
   return (
