@@ -12,8 +12,8 @@ const AddPage = ({ classes }: any) => {
   const addResume = () => {
     let current = resumeStore.addResume("");
     resumeStore.setSelectedResume(current);
-    resumeStore.saveResume(current);
   };
+  resumeStore.fetchResumes()
 
   return (
     <>

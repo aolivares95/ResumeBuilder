@@ -1,4 +1,5 @@
 import { types, Instance } from "mobx-state-tree";
+import { Education } from "./Education";
 //import { saveEducation, saveResume } from "../../server/src/index";
 
 const Resume = types
@@ -6,14 +7,13 @@ const Resume = types
     id: types.maybe(types.number),
     name: types.optional(types.string, ""),
     phoneNumber: types.optional(types.string, ""),
-    education: types.optional(types.string, ""),
-    educationArray: types.optional(types.array(types.string), []),
+    educationArray: types.array(types.reference(Education)),
     uuid: types.identifier
   })
   .actions(self => {
     return {
       addEducation(education: string) {
-        self.education = education;
+        self.educationArray.push(education)
       },
       addName(newName: string) {
         self.name = newName;
@@ -21,9 +21,7 @@ const Resume = types
       addId(id: number) {
         self.id = id;
       },
-      saveEducation() {
-        self.educationArray.push(self.education);
-      },
+      
       addPhoneNumber(newNumber: string) {
         self.phoneNumber = newNumber;
       },
@@ -31,7 +29,6 @@ const Resume = types
         self.name = "";
         self.phoneNumber = "";
         self.educationArray.clear();
-        self.education = "";
       }
     };
   });

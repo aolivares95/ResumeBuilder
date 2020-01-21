@@ -4,14 +4,11 @@ import { Link } from "react-router-dom";
 import { context } from "../../App";
 import { withStyles } from "@material-ui/core";
 import { defaultStyles } from "../Styles";
+import { observer } from "mobx-react";
 
 const SelectResumePage = ({ classes }: any) => {
   const {resumeStore} = React.useContext(context);
 
- 
-    resumeStore.fetchResumes().then(data => {
-      resumeStore.addToMap(data);})
-    
 
   return (
     <>
@@ -33,4 +30,4 @@ const SelectResumePage = ({ classes }: any) => {
   );
 };
 
-export default withStyles(defaultStyles)(SelectResumePage);
+export default withStyles(defaultStyles)(observer(SelectResumePage));

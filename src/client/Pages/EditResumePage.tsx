@@ -2,6 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { context } from "../../App";
+import { IEducation } from "../Models/Education";
 
 let style = {
   padding: "10px",
@@ -16,7 +17,7 @@ let buttonStyle = {
 
 
 function EditResumePage() {
-  const {resumeStore} = React.useContext(context);
+  const {resumeStore, educationStore, isEducationSubmitted, setIsEducationSubmitted, setIsSubmitted, isSubmitted} = React.useContext(context);
   const currentRes = resumeStore.selectedResume!;
 
   function handleInput(event: any) {
@@ -28,15 +29,15 @@ function EditResumePage() {
     } else if (name === "enterNumber") {
       currentRes.addPhoneNumber(target.value);
     } else {
-      currentRes.addEducation(target.value);
+     educationStore.setCurrentEdu(target.value)
     }
   }
 
   function displayInput() {
     let items;
     if (currentRes) {
-      items = currentRes.educationArray.map((item: string) => (
-        <li style={{ listStyleType: "none" }}>{item}</li>
+      items = currentRes.educationArray.map((item: IEducation) => (
+        <li style={{ listStyleType: "none" }}>{item.degree}</li>
       ));
     } else {
       items = <li></li>;
@@ -62,15 +63,16 @@ function EditResumePage() {
 
   function handleSubmit(event: any) {
     event.preventDefault();
-    resumeStore.setIsSubmitted(!resumeStore.isSubmitted);
+   setIsSubmitted(!isSubmitted);
   }
   function handleAddEducation(event: any) {
     event.preventDefault();
-    if (currentRes.education !== "") {
-      currentRes.saveEducation();
+    if(isEducationSubmitted === false){
+    resumeStore.selectedResume!.addEducation(educationStore.addEducation(resumeStore.selectedResume!.id!, educationStore.currentEdu))
+    console.log("education submitted!!!!")
     }
-    currentRes.addEducation(event.target.value);
-    resumeStore.setIsEducationSubmitted(!resumeStore.isEducationSubmitted);
+    educationStore.setCurrentEdu("")
+    setIsEducationSubmitted(!isEducationSubmitted);
   }
 
   function handleClearResume(event: any) {
@@ -85,11 +87,11 @@ function EditResumePage() {
 
   let items;
   if (currentRes) {
-    items = currentRes.educationArray.map((item: string) => <li>{item}</li>);
+    items = currentRes.educationArray.map((item: IEducation) => <li>{item.degree}</li>);
   } else {
     items = <li></li>;
   }
-  return !resumeStore.isSubmitted ? (
+  return !isSubmitted ? (
     <>
       <form
         style={{ display: "grid", justifyItems: "center", minHeight: "50vh" }}
@@ -111,7 +113,7 @@ function EditResumePage() {
         />
         <label style={style}>Please enter your education history</label>
 
-        {!resumeStore.isEducationSubmitted ? (
+        {!isEducationSubmitted ? (
           <input
             id="edu-input"
             name="enterEducation"

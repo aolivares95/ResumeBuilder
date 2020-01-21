@@ -1,6 +1,6 @@
 import { types, getSnapshot, applySnapshot, Instance } from "mobx-state-tree";
 import Resume, { IResume } from "./Resume";
-import { observable, flow } from "mobx";
+import { flow } from "mobx";
 import * as UUID from "uuid";
 import axios from "axios";
 
@@ -8,23 +8,27 @@ export const ResumeStore = types
   .model("ResumeStore", {
     resumes: types.array(Resume),
     id: types.maybe(types.number),
-    isSubmitted: false,
-    isEducationSubmitted: false,
     selectedResume: types.maybe(types.reference(Resume)),
     resumeMap: types.optional(types.map(types.reference(Resume)), {})
   })
   .actions(self => {
     const addToMap = (array: IResume[]) => {
+      self.resumeMap.clear()
       array.forEach(item => {
         self.resumeMap.put(item);
       });
     };
+    return {addToMap}
+  })
+  .actions(self => {
+    
     const fetchResumes = flow(function* fetchResumes() {
       yield fetch("http://localhost:5000/resume")
         .then(result => result.json())
         .then(data => {
           applySnapshot(self.resumes, data);
         });
+        self.addToMap(self.resumes)
       return self.resumes;
     });
 
@@ -40,6 +44,7 @@ export const ResumeStore = types
       current.addName(newResume);
       self.resumeMap.put(current);
       self.resumes.push(current);
+      saveResume(current)
       return current;
     }
 
@@ -51,24 +56,15 @@ export const ResumeStore = types
         return true;
       } else return false;
     }
-    function setIsSubmitted(newIsSubmitted: boolean) {
-      self.isSubmitted = newIsSubmitted;
-    }
-    function setIsEducationSubmitted(newIsEducationSubmitted: boolean) {
-      self.isEducationSubmitted = newIsEducationSubmitted;
-    }
     const setSelectedResume = (sel: IResume) => {
       self.selectedResume = sel;
     };
     return {
-      addToMap,
       setSelectedResume,
       saveResume,
       addResume,
       getResume,
       itemsInResume,
-      setIsSubmitted,
-      setIsEducationSubmitted,
       fetchResumes
     };
   });

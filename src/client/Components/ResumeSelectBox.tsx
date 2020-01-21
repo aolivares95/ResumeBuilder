@@ -2,32 +2,19 @@ import * as React from "react";
 import { observer } from "mobx-react";
 import { context } from "../../App";
 import { IResume } from "../Models/Resume";
+import CustomSelectBox from "./CustomSelectBox";
 
 function ResumeSelectBox() {
   const {resumeStore} = React.useContext(context);
 
-  const items = resumeStore.resumes.map((item: IResume) => (
-    <option value={item.uuid}>
-      {item.id}: {item.name}
-    </option>
-  ));
-
   const handleSelect = (event: any) => {
     resumeStore.setSelectedResume(resumeStore.getResume(event.target.value)!);
+    console.log("handle select called:  " + resumeStore.selectedResume)
   };
 
   return (
-    <select defaultValue={""} onChange={handleSelect}>
-      {resumeStore.selectedResume ? (
-        <option>
-          SELECTED: {resumeStore.selectedResume.id}:{resumeStore.selectedResume.name}
-        </option>
-      ) : (
-        <option>Select a Resume to edit</option>
-      )}
-      {items}
-    </select>
-  );
+    <CustomSelectBox items={resumeStore.resumes} handleSelect={handleSelect}></CustomSelectBox>
+  )
 }
 
 export default observer(ResumeSelectBox);

@@ -6,12 +6,16 @@ import axios from "axios";
 export const EducationStore = types
   .model("EducationStore", {
     educationArray: types.array(Education),
+    
     id: types.maybe(types.number)
   })
+  .volatile(self => ({currentEdu:""}))
   .actions(self => {
-    function addEducation(newEducation: string) {
-      let current = Education.create({ uuid: UUID.v4() });
+    function addEducation(newResumeId:number, degree?:string) {
+      let current = Education.create({ uuid: UUID.v4(), degree:degree, resumeId : newResumeId });
       self.educationArray.push(current);
+      saveEducation(current)
+      return current.uuid
     }
     function saveEducation(currentEdu: IEducation) {
       const eduSnap = getSnapshot(currentEdu);
@@ -19,8 +23,13 @@ export const EducationStore = types
         .post("http://localhost:5000/addEducation", eduSnap)
         .catch(() => console.log("Post failed..."));
     }
+
+    const setCurrentEdu = (cur:string) => {
+      self.currentEdu=cur;
+    }
     return {
       addEducation,
-      saveEducation
+      saveEducation,
+      setCurrentEdu
     };
   });

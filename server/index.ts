@@ -57,13 +57,12 @@ app.post("/addEducation", (req, res) => {
   resRepository.findOneOrFail(resumeId);
 
   let eduRepository = getConnection("ORM").getRepository(Education);
-  degree.forEach(async (item: string) => {
-    await eduRepository.save({
-      degree: item,
+  
+      eduRepository.save({
+      degree: degree,
       uuid: uuid,
       resumeId: resumeId
     });
-  });
 });
 
 // Starting our server.
