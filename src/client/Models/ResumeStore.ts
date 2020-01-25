@@ -68,3 +68,4 @@ export const ResumeStore = types
       fetchResumes
     };
   });
+  export type IResumeStore = Instance<typeof ResumeStore>

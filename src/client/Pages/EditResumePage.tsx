@@ -1,8 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { context } from "../../App";
 import { IEducation } from "../Models/Education";
+import { Context } from "../../Context";
 
 let style = {
   padding: "10px",
@@ -13,11 +13,15 @@ let buttonStyle = {
   padding: "20px"
 };
 
-
-
-
-function EditResumePage() {
-  const {resumeStore, educationStore, isEducationSubmitted, setIsEducationSubmitted, setIsSubmitted, isSubmitted} = React.useContext(context);
+const EditResumePage = () => {
+  const {
+    resumeStore,
+    educationStore,
+    isEducationSubmitted,
+    setIsEducationSubmitted,
+    setIsSubmitted,
+    isSubmitted
+  } = React.useContext(Context);
   const currentRes = resumeStore.selectedResume!;
 
   function handleInput(event: any) {
@@ -29,7 +33,7 @@ function EditResumePage() {
     } else if (name === "enterNumber") {
       currentRes.addPhoneNumber(target.value);
     } else {
-     educationStore.setCurrentEdu(target.value)
+      educationStore.setCurrentEdu(target.value);
     }
   }
 
@@ -63,15 +67,20 @@ function EditResumePage() {
 
   function handleSubmit(event: any) {
     event.preventDefault();
-   setIsSubmitted(!isSubmitted);
+    setIsSubmitted(!isSubmitted);
   }
   function handleAddEducation(event: any) {
     event.preventDefault();
-    if(isEducationSubmitted === false){
-    resumeStore.selectedResume!.addEducation(educationStore.addEducation(resumeStore.selectedResume!.id!, educationStore.currentEdu))
-    console.log("education submitted!!!!")
+    if (isEducationSubmitted === false) {
+      resumeStore.selectedResume!.addEducation(
+        educationStore.addEducation(
+          resumeStore.selectedResume!.id!,
+          educationStore.currentEdu
+        )
+      );
+      console.log("education submitted!!!!");
     }
-    educationStore.setCurrentEdu("")
+    educationStore.setCurrentEdu("");
     setIsEducationSubmitted(!isEducationSubmitted);
   }
 
@@ -87,7 +96,9 @@ function EditResumePage() {
 
   let items;
   if (currentRes) {
-    items = currentRes.educationArray.map((item: IEducation) => <li>{item.degree}</li>);
+    items = currentRes.educationArray.map((item: IEducation) => (
+      <li>{item.degree}</li>
+    ));
   } else {
     items = <li></li>;
   }
@@ -100,6 +111,7 @@ function EditResumePage() {
         <input
           id="name-input"
           onChange={handleInput}
+          value={currentRes.name}
           name="enterName"
           type="text"
         />
@@ -153,6 +165,6 @@ function EditResumePage() {
       </button>
     </div>
   );
-}
+};
 
 export default observer(EditResumePage);

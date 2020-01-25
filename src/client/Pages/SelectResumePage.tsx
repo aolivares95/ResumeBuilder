@@ -1,13 +1,13 @@
 import * as React from "react";
 import ResumeSelectBox from "../Components/ResumeSelectBox";
 import { Link } from "react-router-dom";
-import { context } from "../../App";
+import { Context } from "../..";
 import { withStyles } from "@material-ui/core";
 import { defaultStyles } from "../Styles";
 import { observer } from "mobx-react";
 
 const SelectResumePage = ({ classes }: any) => {
-  const {resumeStore} = React.useContext(context);
+  const {resumeStore} = React.useContext(Context);
 
 
   return (

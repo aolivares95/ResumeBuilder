@@ -1,11 +1,11 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { context } from "../../App";
+import { Context } from "../..";
 import { IResume } from "../Models/Resume";
 import CustomSelectBox from "./CustomSelectBox";
 
 function ResumeSelectBox() {
-  const {resumeStore} = React.useContext(context);
+  const {resumeStore} = React.useContext(Context);
 
   const handleSelect = (event: any) => {
     resumeStore.setSelectedResume(resumeStore.getResume(event.target.value)!);

@@ -6,9 +6,7 @@ import axios from "axios";
 export const EducationStore = types
   .model("EducationStore", {
     educationArray: types.array(Education),
-    
-    id: types.maybe(types.number)
-  })
+      })
   .volatile(self => ({currentEdu:""}))
   .actions(self => {
     function addEducation(newResumeId:number, degree?:string) {
@@ -33,3 +31,5 @@ export const EducationStore = types
       setCurrentEdu
     };
   });
+
+  export type IEducationStore = Instance <typeof EducationStore>

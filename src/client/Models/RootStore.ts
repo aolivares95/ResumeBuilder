@@ -1,6 +1,4 @@
-import { types } from "mobx-state-tree";
-import Resume from "./Resume";
-import { observable } from "mobx";
+import { types, Instance } from "mobx-state-tree";
 import { EducationStore } from "./EducationStore";
 import { ResumeStore } from "./ResumeStore";
 
@@ -23,6 +21,7 @@ export const RootStore = types
       setIsEducationSubmitted
     };
   });
-const rootStore = RootStore.create();
 
-export default observable(rootStore);
+export const rootStore = RootStore.create();
+
+export type IRootStore = Instance<typeof RootStore>
