@@ -1,28 +1,40 @@
 import { ReactWrapper, mount } from "enzyme";
-import { context } from "../App";
 import React from "react";
-import { MemoryRouter } from "react-router";
 import EditResumePage from "../client/Pages/EditResumePage";
-import rootStore from "../client/Models/ResumeStore";
+import { MemoryRouter } from "react-router";
+import { IRootStore, RootStore } from "../client/Models/RootStore";
+import { Context } from "../Context";
 
 describe("Edit Resume Page tests", () => {
   let wrapper: ReactWrapper;
+  let rootStore: IRootStore;
   beforeEach(() => {
+    rootStore = RootStore.create({
+      isSubmitted: false,
+      isEducationSubmitted: false,
+      resumeStore: { resumes: [{ uuid: "1234" }], resumeMap: {} },
+      educationStore: { educationArray: [] }
+    });
     wrapper = mount(
-      <context.Provider value={rootStore}>
+      <Context.Provider value={rootStore}>
         <MemoryRouter initialEntries={["/edit"]}>
           <EditResumePage />
         </MemoryRouter>
-      </context.Provider>
+      </Context.Provider>
     );
   });
 
   it("Renders three input boxes", () => {
+    console.log("wrapper value" + wrapper.debug());
     expect(wrapper.find("input").length).toEqual(3);
   });
   it("Saves the name, phone number and education history provided by the user", () => {
-    rootStore.addResume("");
-    rootStore.setSelectedResume(0);
+    // rootStore.resumeStore.addResume("");
+    rootStore.resumeStore.setSelectedResume(rootStore.resumeStore.resumes[0]);
+    console.log(
+      "Selected resume: " + JSON.stringify(rootStore.resumeStore.selectedResume)
+    );
+
     wrapper
       .find("#name-input")
       .simulate("change", { target: { name: "enterName", value: "cats" } });
@@ -33,9 +45,9 @@ describe("Edit Resume Page tests", () => {
       target: { name: "enterEducation", value: "cats" }
     });
 
-    expect(rootStore.resumes[0].name).toEqual("cats");
-    expect(rootStore.resumes[0].phoneNumber).toEqual("cats");
-    expect(rootStore.resumes[0].education).toEqual("cats");
+    expect(rootStore.resumeStore.resumes[0].name).toEqual("cats");
+    expect(rootStore.resumeStore.resumes[0].phoneNumber).toEqual("cats");
+    expect(rootStore.resumeStore.resumes[0].educationArray).toEqual("cats");
   });
   it("Renders the preview mode when preview resume is clicked", () => {
     wrapper.find("#preview-button").simulate("click");
@@ -44,8 +56,8 @@ describe("Edit Resume Page tests", () => {
     expect(wrapper.text()).toContain("Your education:");
   });
   it("Adds and presents the users education history when the Add/view education button is clicked", () => {
-    rootStore.addResume("");
-    rootStore.setSelectedResume(0);
+    rootStore.resumeStore.addResume("");
+    rootStore.resumeStore.setSelectedResume(rootStore.resumeStore.resumes[0]);
     rootStore.setIsSubmitted(false);
     wrapper.update();
     wrapper.find("#submit-education").simulate("click");

@@ -1,11 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { context } from "../../App";
-import { getSnapshot } from "mobx-state-tree";
-import Resume from "../Models/Resume";
-import axios from "axios";
-import { json } from "body-parser";
+import { IEducation } from "../Models/Education";
+import { Context } from "../../Context";
 
 let style = {
   padding: "10px",
@@ -16,46 +13,48 @@ let buttonStyle = {
   padding: "20px"
 };
 
-//add more fields for things to match real resume
-//add styles
-//add backend
-//add tests
+const EditResumePage = () => {
+  const {
+    resumeStore,
+    educationStore,
+    isEducationSubmitted,
+    setIsEducationSubmitted,
+    setIsSubmitted,
+    isSubmitted
+  } = React.useContext(Context);
+  const currentRes = resumeStore.selectedResume!;
 
-function EditResumePage() {
-  const store = React.useContext(context);
   function handleInput(event: any) {
     const target = event.target;
     const name = target.name;
 
     if (name === "enterName") {
-      store.getResume(store.selectedResume).addName(target.value);
+      currentRes.addName(target.value);
     } else if (name === "enterNumber") {
-      store.getResume(store.selectedResume).addPhoneNumber(target.value);
+      currentRes.addPhoneNumber(target.value);
     } else {
-      store.getResume(store.selectedResume).addEducation(target.value);
+      educationStore.setCurrentEdu(target.value);
     }
   }
 
   function displayInput() {
     let items;
-    if (store.getResume(store.selectedResume)) {
-      items = store
-        .getResume(store.selectedResume)
-        .educationArray.map((item: string) => (
-          <li style={{ listStyleType: "none" }}>{item}</li>
-        ));
+    if (currentRes) {
+      items = currentRes.educationArray.map((item: IEducation) => (
+        <li style={{ listStyleType: "none" }}>{item.degree}</li>
+      ));
     } else {
       items = <li></li>;
     }
 
-    if (store.getResume(store.selectedResume)) {
+    if (currentRes) {
       return (
         <>
           <ul>
             <h1>Your name:</h1>
-            <label>{store.getResume(store.selectedResume).name}</label>
+            <label>{currentRes.name}</label>
             <h1>Your number:</h1>
-            <label>{store.getResume(store.selectedResume).phoneNumber}</label>
+            <label>{currentRes.phoneNumber}</label>
             <h1>Your education: </h1>
             {items}
           </ul>
@@ -68,38 +67,42 @@ function EditResumePage() {
 
   function handleSubmit(event: any) {
     event.preventDefault();
-    store.setIsSubmitted(!store.isSubmitted);
+    setIsSubmitted(!isSubmitted);
   }
   function handleAddEducation(event: any) {
     event.preventDefault();
-    if (store.getResume(store.selectedResume).education !== "") {
-      store.getResume(store.selectedResume).saveEducation();
+    if (isEducationSubmitted === false) {
+      resumeStore.selectedResume!.addEducation(
+        educationStore.addEducation(
+          resumeStore.selectedResume!.id!,
+          educationStore.currentEdu
+        )
+      );
+      console.log("education submitted!!!!");
     }
-    store.getResume(store.selectedResume).addEducation(event.target.value);
-    store.setIsEducationSubmitted(!store.isEducationSubmitted);
+    educationStore.setCurrentEdu("");
+    setIsEducationSubmitted(!isEducationSubmitted);
   }
 
   function handleClearResume(event: any) {
     event.preventDefault();
-    store.getResume(store.selectedResume).clearResume();
+    currentRes.clearResume();
   }
 
   function saveResume(event: any) {
     event.preventDefault();
-    const resSnap = getSnapshot(store.getResume(store.selectedResume));
-    console.log("Resume snapshot:************" + JSON.stringify(resSnap));
-    axios.post("http://localhost:5000/addResume", resSnap);
+    resumeStore.saveResume(currentRes);
   }
 
   let items;
-  if (store.getResume(store.selectedResume)) {
-    items = store
-      .getResume(store.selectedResume)
-      .educationArray.map((item: string) => <li>{item}</li>);
+  if (currentRes) {
+    items = currentRes.educationArray.map((item: IEducation) => (
+      <li>{item.degree}</li>
+    ));
   } else {
     items = <li></li>;
   }
-  return !store.isSubmitted ? (
+  return !isSubmitted ? (
     <>
       <form
         style={{ display: "grid", justifyItems: "center", minHeight: "50vh" }}
@@ -108,6 +111,7 @@ function EditResumePage() {
         <input
           id="name-input"
           onChange={handleInput}
+          value={currentRes.name}
           name="enterName"
           type="text"
         />
@@ -121,7 +125,7 @@ function EditResumePage() {
         />
         <label style={style}>Please enter your education history</label>
 
-        {!store.isEducationSubmitted ? (
+        {!isEducationSubmitted ? (
           <input
             id="edu-input"
             name="enterEducation"
@@ -161,6 +165,6 @@ function EditResumePage() {
       </button>
     </div>
   );
-}
+};
 
 export default observer(EditResumePage);

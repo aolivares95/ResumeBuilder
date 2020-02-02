@@ -1,42 +1,71 @@
-import { types, Instance } from "mobx-state-tree";
+import { types, getSnapshot, applySnapshot, Instance } from "mobx-state-tree";
 import Resume, { IResume } from "./Resume";
-import { observable } from "mobx";
-import { EducationStore } from "./EducationStore";
+import { flow } from "mobx";
+import * as UUID from "uuid";
+import axios from "axios";
 
 export const ResumeStore = types
   .model("ResumeStore", {
     resumes: types.array(Resume),
-    id: 0,
-    isSubmitted: false,
-    isEducationSubmitted: false,
-    selectedResume: 0,
-    //EducationStore: types.model("EducationStore")
+    id: types.maybe(types.number),
+    selectedResume: types.maybe(types.reference(Resume)),
+    resumeMap: types.optional(types.map(types.reference(Resume)), {})
   })
   .actions(self => {
+    const addToMap = (array: IResume[]) => {
+      self.resumeMap.clear()
+      array.forEach(item => {
+        self.resumeMap.put(item);
+      });
+    };
+    return {addToMap}
+  })
+  .actions(self => {
+    
+    const fetchResumes = flow(function* fetchResumes() {
+      yield fetch("http://localhost:5000/resume")
+        .then(result => result.json())
+        .then(data => {
+          applySnapshot(self.resumes, data);
+        });
+        self.addToMap(self.resumes)
+      return self.resumes;
+    });
+
+    function saveResume(currentRes: IResume) {
+      const resSnap = getSnapshot(currentRes);
+      axios
+        .post("http://localhost:5000/addResume", resSnap)
+        .catch(() => console.log("Post failed..."));
+    }
+
+    function addResume(newResume: string) {
+      let current = Resume.create({ uuid: UUID.v4() });
+      current.addName(newResume);
+      self.resumeMap.put(current);
+      self.resumes.push(current);
+      saveResume(current)
+      return current;
+    }
+
+    function getResume(uuid: string) {
+      return self.resumeMap.get(uuid);
+    }
+    function itemsInResume() {
+      if (self.resumes.length > 0) {
+        return true;
+      } else return false;
+    }
+    const setSelectedResume = (sel: IResume) => {
+      self.selectedResume = sel;
+    };
     return {
-      addResume(newResume: string) {
-        let current = Resume.create({ id: self.id });
-        current.addName(newResume);
-        self.resumes.push(current);
-        self.id++;
-      },
-      getResume(id: number) {
-        return self.resumes[id];
-      },
-      setIsSubmitted(newIsSubmitted: boolean) {
-        self.isSubmitted = newIsSubmitted;
-      },
-      setIsEducationSubmitted(newIsEducationSubmitted: boolean) {
-        self.isEducationSubmitted = newIsEducationSubmitted;
-      },
-      setSelectedResume(sel: number) {
-        self.selectedResume = sel;
-      }
+      setSelectedResume,
+      saveResume,
+      addResume,
+      getResume,
+      itemsInResume,
+      fetchResumes
     };
   });
-
-const rootStore = ResumeStore.create();
-
-export default observable(rootStore);
-
-export type IResumeStore = Instance <typeof ResumeStore>
+  export type IResumeStore = Instance<typeof ResumeStore>

@@ -2,8 +2,6 @@ import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import AddPage from "../client/Pages/AddPage";
 import { MemoryRouter } from "react-router-dom";
-import { context } from "../App";
-import rootStore from "../client/Models/ResumeStore";
 
 describe("Add page tests", () => {
   let wrapper: ReactWrapper;
@@ -11,8 +9,7 @@ describe("Add page tests", () => {
     wrapper = mount(
       <MemoryRouter initialEntries={["/"]}>
         <AddPage />
-      </MemoryRouter>,
-      { context: context }
+      </MemoryRouter>
     );
   });
   it("Adds a resume to the store when the add button is clicked", () => {

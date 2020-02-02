@@ -1,25 +1,22 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { context } from "../../App";
+import CustomSelectBox from "./CustomSelectBox";
+import { Context } from "../../Context";
 
 function ResumeSelectBox() {
-  const store = React.useContext(context);
-  function handleSelect(event: any) {
-    event.preventDefault();
-    const target = event.target.value;
-    const temp = parseInt(target.substring(0, target.indexOf(":")));
+  const { resumeStore } = React.useContext(Context);
 
-    if (temp !== NaN) {
-      store.setSelectedResume(temp);
-    }
-  }
-  const items = store.resumes.map((item: any) => (
-    <option>
-      {item.id}: {item.name}
-    </option>
-  ));
+  const handleSelect = (event: any) => {
+    resumeStore.setSelectedResume(resumeStore.getResume(event.target.value)!);
+    console.log("handle select called:  " + resumeStore.selectedResume);
+  };
 
-  return <select onClick={handleSelect}>{items}</select>;
+  return (
+    <CustomSelectBox
+      items={resumeStore.resumes}
+      handleSelect={handleSelect}
+    ></CustomSelectBox>
+  );
 }
 
 export default observer(ResumeSelectBox);

@@ -1,18 +1,19 @@
 import * as React from "react";
 import ResumeSelectBox from "../Components/ResumeSelectBox";
 import { Link } from "react-router-dom";
-import { context } from "../../App";
-import { WithStyles, withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 import { defaultStyles } from "../Styles";
+import { observer } from "mobx-react";
+import { Context } from "../../Context";
 
-interface IAddPage extends WithStyles {}
-function SelectResumePage(classes: any) {
-  const store = React.useContext(context);
+const SelectResumePage = ({ classes }: any) => {
+  const { resumeStore } = React.useContext(Context);
+
   return (
     <>
-      <h1 style={classes.addH1Style}>Select Page</h1>
-      <div style={classes.addDivStyle}>
-        {store.getResume(0) ? (
+      <h1 className={classes.addH1Style}>Select Page</h1>
+      <div className={classes.addDivStyle}>
+        {resumeStore.itemsInResume ? (
           <Link to="/edit">
             <button>Edit resume</button>
           </Link>
@@ -26,6 +27,6 @@ function SelectResumePage(classes: any) {
       </div>
     </>
   );
-}
+};
 
-export default withStyles(defaultStyles)(SelectResumePage);
+export default withStyles(defaultStyles)(observer(SelectResumePage));
