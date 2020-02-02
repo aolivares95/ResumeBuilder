@@ -2,9 +2,9 @@ import { ReactWrapper, mount } from "enzyme";
 import React from "react";
 import EditResumePage from "../Pages/EditResumePage";
 import { RootStore, IRootStore } from "../Models/RootStore";
-import { Context } from "../../Context";
-import { HashRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import "jest-enzyme";
+import { Context } from "../../Context";
 
 describe("Edit Resume Page tests", () => {
   let wrapper: ReactWrapper;
@@ -16,10 +16,11 @@ describe("Edit Resume Page tests", () => {
     });
     wrapper = mount(
       <Context.Provider value={rootStore}>
-        <HashRouter>
+        <MemoryRouter initialEntries={["/edit"]}>
           <EditResumePage />
-        </HashRouter>
-      </Context.Provider>
+        </MemoryRouter>
+      </Context.Provider>,
+      { context: Context }
     );
   });
 

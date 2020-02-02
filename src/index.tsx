@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "typeface-roboto";
-import rootStore from "./client/Models/RootStore";
+import { rootStore } from "./client/Models/RootStore";
 import { Context } from "./Context";
 
 ReactDOM.render(
