@@ -9,10 +9,11 @@ describe("Edit Resume Page tests", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
-      <MemoryRouter initialEntries={["/edit"]}>
-        <EditResumePage />
-      </MemoryRouter>,
-      { context: context }
+      <context.Provider value={rootStore}>
+        <MemoryRouter initialEntries={["/edit"]}>
+          <EditResumePage />
+        </MemoryRouter>
+      </context.Provider>
     );
   });
 
