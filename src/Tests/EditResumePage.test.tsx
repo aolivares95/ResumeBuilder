@@ -1,17 +1,18 @@
 import { ReactWrapper, mount } from "enzyme";
 import React from "react";
-import EditResumePage from "../Pages/EditResumePage";
-import { RootStore, IRootStore } from "../Models/RootStore";
-import { MemoryRouter } from "react-router-dom";
-import "jest-enzyme";
-import { Context } from "../../Context";
+import EditResumePage from "../client/Pages/EditResumePage";
+import { MemoryRouter } from "react-router";
+import { IRootStore, RootStore } from "../client/Models/RootStore";
+import { Context } from "../Context";
 
 describe("Edit Resume Page tests", () => {
   let wrapper: ReactWrapper;
   let rootStore: IRootStore;
   beforeEach(() => {
     rootStore = RootStore.create({
-      resumeStore: { resumes: [] },
+      isSubmitted: false,
+      isEducationSubmitted: false,
+      resumeStore: { resumes: [{ uuid: "1234" }], resumeMap: {} },
       educationStore: { educationArray: [] }
     });
     wrapper = mount(
@@ -19,8 +20,7 @@ describe("Edit Resume Page tests", () => {
         <MemoryRouter initialEntries={["/edit"]}>
           <EditResumePage />
         </MemoryRouter>
-      </Context.Provider>,
-      { context: Context }
+      </Context.Provider>
     );
   });
 
@@ -29,7 +29,7 @@ describe("Edit Resume Page tests", () => {
     expect(wrapper.find("input").length).toEqual(3);
   });
   it("Saves the name, phone number and education history provided by the user", () => {
-    rootStore.resumeStore.addResume("");
+    // rootStore.resumeStore.addResume("");
     rootStore.resumeStore.setSelectedResume(rootStore.resumeStore.resumes[0]);
     console.log(
       "Selected resume: " + JSON.stringify(rootStore.resumeStore.selectedResume)

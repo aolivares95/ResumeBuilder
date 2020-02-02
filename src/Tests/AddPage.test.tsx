@@ -1,6 +1,6 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
-import AddPage from "../Pages/AddPage";
+import AddPage from "../client/Pages/AddPage";
 import { MemoryRouter } from "react-router-dom";
 
 describe("Add page tests", () => {

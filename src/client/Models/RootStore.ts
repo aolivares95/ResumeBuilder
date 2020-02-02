@@ -22,6 +22,5 @@ export const RootStore = types
     };
   });
 
-export const rootStore = RootStore.create();
 
 export type IRootStore = Instance<typeof RootStore>
