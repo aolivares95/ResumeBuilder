@@ -22,6 +22,7 @@ const EditResumePage = () => {
     setIsSubmitted,
     isSubmitted
   } = React.useContext(Context);
+
   const currentRes = resumeStore.selectedResume!;
 
   function handleInput(event: any) {
@@ -33,6 +34,7 @@ const EditResumePage = () => {
     } else if (name === "enterNumber") {
       currentRes.addPhoneNumber(target.value);
     } else {
+      console.log("target value:  " + target.value);
       educationStore.setCurrentEdu(target.value);
     }
   }
@@ -72,6 +74,7 @@ const EditResumePage = () => {
   function handleAddEducation(event: any) {
     event.preventDefault();
     if (isEducationSubmitted === false) {
+      console.log("this gets called");
       resumeStore.selectedResume!.addEducation(
         educationStore.addEducation(
           resumeStore.selectedResume!.id!,

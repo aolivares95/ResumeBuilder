@@ -12,7 +12,11 @@ describe("Edit Resume Page tests", () => {
     rootStore = RootStore.create({
       isSubmitted: false,
       isEducationSubmitted: false,
-      resumeStore: { resumes: [{ uuid: "1234" }], resumeMap: {} },
+      resumeStore: {
+        resumes: [{ uuid: "1234", id: 1 }],
+        resumeMap: { "1234": "1234" },
+        selectedResume: "1234"
+      },
       educationStore: { educationArray: [] }
     });
     wrapper = mount(
@@ -28,12 +32,8 @@ describe("Edit Resume Page tests", () => {
     console.log("wrapper value" + wrapper.debug());
     expect(wrapper.find("input").length).toEqual(3);
   });
-  it("Saves the name, phone number and education history provided by the user", () => {
-    // rootStore.resumeStore.addResume("");
+  it("can edit the name, phone number and education history provided by the user", () => {
     rootStore.resumeStore.setSelectedResume(rootStore.resumeStore.resumes[0]);
-    console.log(
-      "Selected resume: " + JSON.stringify(rootStore.resumeStore.selectedResume)
-    );
 
     wrapper
       .find("#name-input")

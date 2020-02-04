@@ -8,6 +8,9 @@ export const EducationStore = types
     educationArray: types.array(Education),
       })
   .volatile(self => ({currentEdu:""}))
+  .views(self =>({getEducationbyResId(resumeId:number){
+    return self.educationArray.filter(edu=>edu.resumeId===resumeId)
+  }}))
   .actions(self => {
     function addEducation(newResumeId:number, degree?:string) {
       let current = Education.create({ uuid: UUID.v4(), degree:degree, resumeId : newResumeId });

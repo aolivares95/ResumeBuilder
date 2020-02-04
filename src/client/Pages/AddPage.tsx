@@ -7,7 +7,7 @@ import { Context } from "../../Context";
 //interface IAddPage extends WithStyles<typeof defaultStyles> {}
 
 const AddPage = ({ classes }: any) => {
-  const { resumeStore } = React.useContext(Context);
+  const { resumeStore, educationStore } = React.useContext(Context);
 
   const addResume = () => {
     let current = resumeStore.addResume("");

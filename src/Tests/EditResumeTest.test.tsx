@@ -13,7 +13,11 @@ describe("Edit Resume Page tests", () => {
     rootStore = RootStore.create({
       isSubmitted: false,
       isEducationSubmitted: false,
-      resumeStore: { resumes: [{ uuid: "1234" }], resumeMap: {} },
+      resumeStore: {
+        selectedResume: "1234",
+        resumes: [{ uuid: "1234", id: 1 }],
+        resumeMap: { "1234": "1234" }
+      },
       educationStore: { educationArray: [] }
     });
     wrapper = mount(
