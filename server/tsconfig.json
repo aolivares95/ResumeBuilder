@@ -19,6 +19,6 @@
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src"],
-  "exclude": ["node_modules", "ormconfig.js"]
+  "include": ["src"]
+  // "exclude": ["node_modules", "ormconfig.json"]
 }

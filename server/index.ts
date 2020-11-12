@@ -8,29 +8,29 @@ import * as bodyParser from "body-parser";
 
 const connection = createPool({
   host: "localhost",
-  user: "fake",
+  user: "root",
   port: 3306,
-  password: "pass123",
-  database: "resume_db"
+  password: "password",
+  database: "resume_db",
 });
 
-createConnection("ORM");
+createConnection("default");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get("/resume", function(req: any, res: any) {
-  connection.getConnection(function(err, connection) {
-    connection.query("SELECT * FROM resume", function(error, results, fields) {
+app.get("/resume", function (req: any, res: any) {
+  connection.getConnection(function (err, connection) {
+    connection.query("SELECT * FROM resume", function (error, results, fields) {
       if (error) throw error;
       res.send(results);
     });
   });
 });
 
-app.get("/education", function(req: any, res: any) {
-  connection.getConnection(function(err, connection) {
-    connection.query("SELECT * FROM education", function(error, results) {
+app.get("/education", function (req: any, res: any) {
+  connection.getConnection(function (err, connection) {
+    connection.query("SELECT * FROM education", function (error, results) {
       if (error) throw error;
       res.send(results);
     });
@@ -40,29 +40,29 @@ app.get("/education", function(req: any, res: any) {
 app.post("/addResume", (req, res) => {
   const { name, phoneNumber, id, uuid } = req.body;
 
-  let resRepository = getConnection("ORM").getRepository(Resume);
+  let resRepository = getConnection("default").getRepository(Resume);
 
   resRepository.save({
     id: id,
     name: name,
     phoneNumber: phoneNumber,
-    uuid: uuid
+    uuid: uuid,
   });
 });
 
 app.post("/addEducation", (req, res) => {
   const { degree, resumeId, uuid } = req.body;
 
-  let resRepository = getConnection("ORM").getRepository(Resume);
+  let resRepository = getConnection("default").getRepository(Resume);
   resRepository.findOneOrFail(resumeId);
 
-  let eduRepository = getConnection("ORM").getRepository(Education);
-  
-      eduRepository.save({
-      degree: degree,
-      uuid: uuid,
-      resumeId: resumeId
-    });
+  let eduRepository = getConnection("default").getRepository(Education);
+
+  eduRepository.save({
+    degree: degree,
+    uuid: uuid,
+    resumeId: resumeId,
+  });
 });
 
 // Starting our server.
