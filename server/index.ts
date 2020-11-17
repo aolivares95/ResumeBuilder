@@ -38,15 +38,25 @@ app.get("/education", function (req: any, res: any) {
 });
 
 app.post("/addResume", (req, res) => {
-  const { name, phoneNumber, id, uuid } = req.body;
+  const { name, phoneNumber, uuid } = req.body;
 
   let resRepository = getConnection("default").getRepository(Resume);
 
   resRepository.save({
-    id: id,
     name: name,
     phoneNumber: phoneNumber,
     uuid: uuid,
+  });
+});
+
+app.post("/updateResume", (req, res) => {
+  const { name, phoneNumber, id } = req.body;
+
+  let resRepository = getConnection("default").getRepository(Resume);
+
+  resRepository.update(id, {
+    name: name,
+    phoneNumber: phoneNumber,
   });
 });
 

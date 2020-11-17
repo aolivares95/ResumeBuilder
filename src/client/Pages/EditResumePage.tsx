@@ -6,11 +6,11 @@ import { Context } from "../../Context";
 
 let style = {
   padding: "10px",
-  marginTop: "35px"
+  marginTop: "35px",
 };
 
 let buttonStyle = {
-  padding: "20px"
+  padding: "20px",
 };
 
 const EditResumePage = () => {
@@ -20,7 +20,7 @@ const EditResumePage = () => {
     isEducationSubmitted,
     setIsEducationSubmitted,
     setIsSubmitted,
-    isSubmitted
+    isSubmitted,
   } = React.useContext(Context);
 
   const currentRes = resumeStore.selectedResume!;
@@ -43,7 +43,9 @@ const EditResumePage = () => {
     let items;
     if (currentRes) {
       items = currentRes.educationArray.map((item: IEducation) => (
-        <li style={{ listStyleType: "none" }}>{item.degree}</li>
+        <li key={item.uuid} id={item.uuid} style={{ listStyleType: "none" }}>
+          {item.degree}
+        </li>
       ));
     } else {
       items = <li></li>;
@@ -74,7 +76,7 @@ const EditResumePage = () => {
   function handleAddEducation(event: any) {
     event.preventDefault();
     if (isEducationSubmitted === false) {
-      console.log("this gets called");
+      console.log("resume value: " + resumeStore.selectedResume!.id!);
       resumeStore.selectedResume!.addEducation(
         educationStore.addEducation(
           resumeStore.selectedResume!.id!,
@@ -92,9 +94,9 @@ const EditResumePage = () => {
     currentRes.clearResume();
   }
 
-  function saveResume(event: any) {
+  function updateResume(event: any) {
     event.preventDefault();
-    resumeStore.saveResume(currentRes);
+    resumeStore.updateResume(currentRes);
   }
 
   let items;
@@ -150,7 +152,7 @@ const EditResumePage = () => {
           <button id="preview-button" type="submit" onClick={handleSubmit}>
             Preview resume
           </button>
-          <button onClick={saveResume}>Save Resume</button>
+          <button onClick={updateResume}>Save Resume</button>
           <Link to="/">
             <button>Go back</button>
           </Link>

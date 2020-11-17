@@ -4,7 +4,7 @@ import { types, Instance } from "mobx-state-tree";
 export const Education = types.model("Education", {
   id: types.maybe(types.number),
   degree: types.optional(types.string, ""),
-  resumeId: types.number,
-  uuid: types.identifier
+  resumeId: 0,
+  uuid: types.identifier,
 });
 export type IEducation = Instance<typeof Education>;

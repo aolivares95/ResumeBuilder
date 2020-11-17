@@ -7,7 +7,7 @@ function ResumeSelectBox() {
   const { resumeStore } = React.useContext(Context);
 
   const handleSelect = (event: any) => {
-    resumeStore.setSelectedResume(resumeStore.getResume(event.target.value)!);
+    resumeStore.setSelectedResume(event.target.value);
     console.log("handle select called:  " + resumeStore.selectedResume);
   };
 
