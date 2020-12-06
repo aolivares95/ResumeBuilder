@@ -7,8 +7,10 @@ import { observer } from "mobx-react";
 import { Context } from "../../Context";
 
 const SelectResumePage = ({ classes }: any) => {
-  const { resumeStore } = React.useContext(Context);
-
+  const { resumeStore, educationStore } = React.useContext(Context);
+  if (educationStore.isFetched === true) {
+    educationStore.toggleIsFetched();
+  }
   return (
     <>
       <h1 className={classes.addH1Style}>Select Page</h1>

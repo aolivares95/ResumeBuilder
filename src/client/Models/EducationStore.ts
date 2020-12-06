@@ -13,6 +13,7 @@ export const EducationStore = types
   .model("EducationStore", {
     educationArray: types.array(Education),
     educationMap: types.optional(types.map(types.reference(Education)), {}),
+    isFetched: false,
   })
   .volatile((self) => ({ currentEdu: "" }))
   .views((self) => ({
@@ -42,6 +43,10 @@ export const EducationStore = types
       return self.educationArray;
     });
 
+    function toggleIsFetched() {
+      self.isFetched = !self.isFetched;
+    }
+
     function addEducation(newResumeId: number, degree?: string) {
       let current = Education.create({
         uuid: UUID.v4(),
@@ -67,6 +72,7 @@ export const EducationStore = types
       saveEducation,
       setCurrentEdu,
       fetchEducation,
+      toggleIsFetched,
     };
   });
 

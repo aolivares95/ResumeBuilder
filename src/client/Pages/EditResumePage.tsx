@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { IEducation } from "../Models/Education";
 import { Context } from "../../Context";
-import { applySnapshot } from "mobx-state-tree";
 
 let style = {
   padding: "10px",
@@ -26,6 +25,15 @@ const EditResumePage = () => {
 
   const currentRes = resumeStore.selectedResume!;
 
+  // const [fetched, setFetched] = useState(false);
+
+  const fetch = async () => {
+    if (!educationStore.isFetched) {
+      await educationStore.fetchEducation(currentRes.id!);
+      educationStore.toggleIsFetched();
+    }
+  };
+  fetch();
   function handleInput(event: any) {
     const target = event.target;
     const name = target.name;
