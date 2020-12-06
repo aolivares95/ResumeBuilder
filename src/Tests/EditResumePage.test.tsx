@@ -15,9 +15,9 @@ describe("Edit Resume Page tests", () => {
       resumeStore: {
         resumes: [{ uuid: "1234", id: 1 }],
         resumeMap: { "1234": "1234" },
-        selectedResume: "1234"
+        selectedResume: "1234",
       },
-      educationStore: { educationArray: [] }
+      educationStore: { educationArray: [] },
     });
     wrapper = mount(
       <Context.Provider value={rootStore}>
@@ -42,7 +42,7 @@ describe("Edit Resume Page tests", () => {
       .find("#number-input")
       .simulate("change", { target: { name: "enterNumber", value: "cats" } });
     wrapper.find("#edu-input").simulate("change", {
-      target: { name: "enterEducation", value: "cats" }
+      target: { name: "enterEducation", value: "cats" },
     });
 
     expect(rootStore.resumeStore.resumes[0].name).toEqual("cats");

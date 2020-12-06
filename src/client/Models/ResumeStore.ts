@@ -7,7 +7,6 @@ import axios from "axios";
 export const ResumeStore = types
   .model("ResumeStore", {
     resumes: types.array(Resume),
-    id: types.maybe(types.number),
     selectedResume: types.maybe(types.reference(Resume)),
     resumeMap: types.optional(types.map(types.reference(Resume)), {}),
   })

@@ -13,13 +13,11 @@ const SelectResumePage = ({ classes }: any) => {
     <>
       <h1 className={classes.addH1Style}>Select Page</h1>
       <div className={classes.addDivStyle}>
-        {resumeStore.itemsInResume ? (
+        {resumeStore.itemsInResume() ? (
           <Link to="/edit">
             <button>Edit resume</button>
           </Link>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         <Link to="/">
           <button>Back to main</button>
         </Link>

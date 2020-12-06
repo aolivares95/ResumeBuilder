@@ -7,11 +7,10 @@ import { Context } from "../../Context";
 //interface IAddPage extends WithStyles<typeof defaultStyles> {}
 
 const AddPage = ({ classes }: any) => {
-  const { resumeStore, educationStore } = React.useContext(Context);
+  const { resumeStore } = React.useContext(Context);
 
   const addResume = () => {
     let current = resumeStore.addResume("");
-    console.log("current resume: " + current.uuid);
     resumeStore.setSelectedResume(current.uuid);
   };
   resumeStore.fetchResumes();

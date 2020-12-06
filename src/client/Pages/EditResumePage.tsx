@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { IEducation } from "../Models/Education";
 import { Context } from "../../Context";
+import { applySnapshot } from "mobx-state-tree";
 
 let style = {
   padding: "10px",
@@ -34,7 +35,6 @@ const EditResumePage = () => {
     } else if (name === "enterNumber") {
       currentRes.addPhoneNumber(target.value);
     } else {
-      console.log("target value:  " + target.value);
       educationStore.setCurrentEdu(target.value);
     }
   }
@@ -76,14 +76,12 @@ const EditResumePage = () => {
   function handleAddEducation(event: any) {
     event.preventDefault();
     if (isEducationSubmitted === false) {
-      console.log("resume value: " + resumeStore.selectedResume!.id!);
       resumeStore.selectedResume!.addEducation(
         educationStore.addEducation(
           resumeStore.selectedResume!.id!,
           educationStore.currentEdu
         )
       );
-      console.log("education submitted!!!!");
     }
     educationStore.setCurrentEdu("");
     setIsEducationSubmitted(!isEducationSubmitted);
@@ -127,6 +125,7 @@ const EditResumePage = () => {
           name="enterNumber"
           type="text"
           onChange={handleInput}
+          value={currentRes.phoneNumber}
         />
         <label style={style}>Please enter your education history</label>
 

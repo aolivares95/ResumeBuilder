@@ -8,7 +8,6 @@ function ResumeSelectBox() {
 
   const handleSelect = (event: any) => {
     resumeStore.setSelectedResume(event.target.value);
-    console.log("handle select called:  " + resumeStore.selectedResume);
   };
 
   return (

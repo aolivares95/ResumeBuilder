@@ -28,12 +28,16 @@ app.get("/resume", function (req: any, res: any) {
   });
 });
 
-app.get("/education", function (req: any, res: any) {
+app.get("/education/:id", function (req: any, res: any) {
   connection.getConnection(function (err, connection) {
-    connection.query("SELECT * FROM education", function (error, results) {
-      if (error) throw error;
-      res.send(results);
-    });
+    connection.query(
+      "SELECT * FROM education where resumeId = ?",
+      [req.params.id],
+      function (error, results) {
+        if (error) throw error;
+        res.send(results);
+      }
+    );
   });
 });
 
