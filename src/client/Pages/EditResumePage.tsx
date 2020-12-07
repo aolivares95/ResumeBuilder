@@ -50,11 +50,13 @@ const EditResumePage = () => {
   function displayInput() {
     let items;
     if (currentRes) {
-      items = currentRes.educationArray.map((item: IEducation) => (
-        <li key={item.uuid} id={item.uuid} style={{ listStyleType: "none" }}>
-          {item.degree}
-        </li>
-      ));
+      items = educationStore
+        .getEducationbyResId(currentRes.id!)
+        .map((item: IEducation) => (
+          <li key={item.uuid} id={item.uuid} style={{ listStyleType: "none" }}>
+            {item.degree}
+          </li>
+        ));
     } else {
       items = <li></li>;
     }
