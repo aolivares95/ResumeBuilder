@@ -41,6 +41,20 @@ app.get("/education/:id", function (req: any, res: any) {
   });
 });
 
+app.get("/resume/:uuid", function (req: any, res: any) {
+  console.log("Plz work");
+  connection.getConnection(function (err, connection) {
+    connection.query(
+      "SELECT * FROM resume where uuid = ?",
+      [req.params.uuid],
+      function (error, results) {
+        if (error) throw error;
+        res.send(results);
+      }
+    );
+  });
+});
+
 app.post("/addResume", (req, res) => {
   const { name, phoneNumber, uuid } = req.body;
 
@@ -54,28 +68,30 @@ app.post("/addResume", (req, res) => {
 });
 
 app.post("/updateResume", (req, res) => {
-  const { name, phoneNumber, id } = req.body;
+  const { name, phoneNumber, uuid } = req.body;
 
   let resRepository = getConnection("default").getRepository(Resume);
 
-  resRepository.update(id, {
-    name: name,
-    phoneNumber: phoneNumber,
-  });
+  resRepository.update(
+    { uuid: uuid },
+    {
+      name: name,
+      phoneNumber: phoneNumber,
+    }
+  );
 });
 
-app.post("/addEducation", (req, res) => {
-  const { degree, resumeId, uuid } = req.body;
+app.post("/addEducation/:uuid", (req, res) => {
+  const { degree, uuid } = req.body;
 
   let resRepository = getConnection("default").getRepository(Resume);
-  resRepository.findOneOrFail(resumeId);
-
-  let eduRepository = getConnection("default").getRepository(Education);
-
-  eduRepository.save({
-    degree: degree,
-    uuid: uuid,
-    resumeId: resumeId,
+  resRepository.findOneOrFail({ uuid: req.params.uuid }).then((data) => {
+    let eduRepository = getConnection("default").getRepository(Education);
+    eduRepository.save({
+      degree: degree,
+      uuid: uuid,
+      resumeId: data.id,
+    });
   });
 });
 

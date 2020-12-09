@@ -30,12 +30,12 @@ export const ResumeStore = types
       return self.resumes;
     });
 
-    function saveResume(currentRes: IResume) {
+    const saveResume = async (currentRes: IResume) => {
       const resSnap = getSnapshot(currentRes);
-      axios
+      await axios
         .post("http://localhost:5000/addResume", resSnap)
         .catch(() => console.log("Post failed..."));
-    }
+    };
 
     function updateResume(currentRes: IResume) {
       const resSnap = getSnapshot(currentRes);

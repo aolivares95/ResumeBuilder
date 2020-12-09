@@ -25,8 +25,6 @@ const EditResumePage = () => {
 
   const currentRes = resumeStore.selectedResume!;
 
-  // const [fetched, setFetched] = useState(false);
-
   const fetch = async () => {
     if (!educationStore.isFetched) {
       await educationStore.fetchEducation(currentRes.id!);
@@ -89,6 +87,7 @@ const EditResumePage = () => {
       resumeStore.selectedResume!.addEducation(
         educationStore.addEducation(
           resumeStore.selectedResume!.id!,
+          resumeStore.selectedResume!.uuid!,
           educationStore.currentEdu
         )
       );

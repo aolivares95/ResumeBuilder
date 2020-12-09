@@ -8,6 +8,7 @@ import { Context } from "../../Context";
 
 const SelectResumePage = ({ classes }: any) => {
   const { resumeStore, educationStore } = React.useContext(Context);
+  // resumeStore.fetchResumes();
   if (educationStore.isFetched === true) {
     educationStore.toggleIsFetched();
   }

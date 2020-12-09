@@ -47,20 +47,24 @@ export const EducationStore = types
       self.isFetched = !self.isFetched;
     }
 
-    function addEducation(newResumeId: number, degree?: string) {
+    function addEducation(
+      newResumeId: number,
+      resuuid?: string,
+      degree?: string
+    ) {
       let current = Education.create({
         uuid: UUID.v4(),
         degree: degree,
         resumeId: newResumeId,
       });
       self.educationArray.push(current);
-      saveEducation(current);
+      saveEducation(current, resuuid);
       return current.uuid;
     }
-    function saveEducation(currentEdu: IEducation) {
+    function saveEducation(currentEdu: IEducation, resuuid?: string) {
       const eduSnap = getSnapshot(currentEdu);
       axios
-        .post("http://localhost:5000/addEducation", eduSnap)
+        .post("http://localhost:5000/addEducation/" + resuuid, eduSnap)
         .catch(() => console.log("Post failed..."));
     }
 
