@@ -42,7 +42,6 @@ app.get("/education/:id", function (req: any, res: any) {
 });
 
 app.get("/resume/:uuid", function (req: any, res: any) {
-  console.log("Plz work");
   connection.getConnection(function (err, connection) {
     connection.query(
       "SELECT * FROM resume where uuid = ?",
@@ -95,7 +94,6 @@ app.post("/addEducation/:uuid", (req, res) => {
   });
 });
 
-// Starting our server.
 app.listen(5000, () => {
   console.log("Go to http://localhost:5000/resume so you can see the data.");
 });
