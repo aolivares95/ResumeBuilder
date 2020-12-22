@@ -23,6 +23,7 @@ const EditResumePage = () => {
     setIsSubmitted,
     isSubmitted,
   } = React.useContext(Context);
+  // setIsEducationSubmitted(false);
 
   const currentRes = resumeStore.selectedResume!;
 
@@ -55,7 +56,6 @@ const EditResumePage = () => {
   function displayInput() {
     let items;
     if (currentRes) {
-      console.log(JSON.stringify(currentRes.educationArray));
       items = currentRes.educationArray.map((item: IEducation) => (
         <li key={item.uuid} id={item.uuid} style={{ listStyleType: "none" }}>
           {item.degree}

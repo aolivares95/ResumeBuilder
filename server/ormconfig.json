@@ -7,7 +7,7 @@
   "password": "password",
   "database": "resume_db",
   "synchronize": false,
-  "logging": true,
+  "logging": "all",
   "entities": ["src/entity/**/*.ts"],
   "migrations": ["src/migration/**/*.ts"],
   "subscribers": ["src/subscriber/**/*.ts"],
