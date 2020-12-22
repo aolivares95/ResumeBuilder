@@ -38,8 +38,7 @@ export const EducationStore = types
           applySnapshot(self.educationArray, data);
         });
       self.addToMap(self.educationArray);
-      console.log("fetch education called with: " + resumeId);
-      console.log("education array contains: " + self.educationArray);
+
       return self.educationArray;
     });
 

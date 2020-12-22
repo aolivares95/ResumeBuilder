@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start-frontend": "react-scripts start",
-    "start-server": "cd ./server && ts-node index.ts",
+    "start-server": "cd ./server && nodemon -i",
     "start": "npm-run-all -p start-server start-frontend",
     "build": "react-scripts build",
     "test": "react-scripts test",

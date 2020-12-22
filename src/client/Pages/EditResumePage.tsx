@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { IEducation } from "../Models/Education";
 import { Context } from "../../Context";
-import { applySnapshot } from "mobx-state-tree";
+// import { applySnapshot } from "mobx-state-tree";
 
 let style = {
   padding: "10px",
@@ -26,19 +26,21 @@ const EditResumePage = () => {
 
   const currentRes = resumeStore.selectedResume!;
 
-  const fetch = async () => {
-    if (!educationStore.isFetched) {
-      await educationStore.fetchEducation(currentRes.id!).then((data) => {
-        applySnapshot(
-          currentRes.educationArray,
-          data.map((data) => data.uuid)
-        );
-      });
+  // const fetch = async () => {
+  //   if (!educationStore.isFetched) {
+  //     await educationStore.fetchEducation(currentRes.id!).then((data) => {
+  //       console.log("fetch called, isFetched= " + educationStore.isFetched);
+  //       applySnapshot(
+  //         currentRes.educationArray,
+  //         data.map((data) => data.uuid)
+  //       );
+  //     });
 
-      educationStore.toggleIsFetched();
-    }
-  };
-  fetch();
+  //     await educationStore.toggleIsFetched();
+  //   }
+  // };
+  // fetch();
+
   function handleInput(event: any) {
     const target = event.target;
     const name = target.name;
@@ -54,8 +56,8 @@ const EditResumePage = () => {
 
   function displayInput() {
     let items;
+    console.log(JSON.stringify(currentRes.educationArray));
     if (currentRes) {
-      console.log(JSON.stringify(currentRes.educationArray));
       items = currentRes.educationArray.map((item: IEducation) => (
         <li key={item.uuid} id={item.uuid} style={{ listStyleType: "none" }}>
           {item.degree}

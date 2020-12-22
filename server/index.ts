@@ -13,8 +13,11 @@ const connection = createPool({
   password: "password",
   database: "resume_db",
 });
-
 createConnection("default");
+
+connection.query("select 1 + 1", (err, rows) => {
+  /* */
+});
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,19 +25,19 @@ app.use(bodyParser.json());
 app.get("/resume", function (req: any, res: any) {
   connection.getConnection(function (err, connection) {
     connection.query("SELECT * FROM resume", function (error, results, fields) {
-      if (error) throw error;
+      if (error) throw error && console.log(error.code);
       res.send(results);
     });
   });
 });
 
 app.get("/education/:id", function (req: any, res: any) {
-  connection.getConnection(function (err, connection) {
+  connection.getConnection(function (error, connection) {
     connection.query(
       "SELECT * FROM education where resumeId = ?",
       [req.params.id],
       function (error, results) {
-        if (error) throw error;
+        if (error) throw error && console.log(error.code);
         res.send(results);
       }
     );
@@ -47,7 +50,7 @@ app.get("/resume/:uuid", function (req: any, res: any) {
       "SELECT * FROM resume where uuid = ?",
       [req.params.uuid],
       function (error, results) {
-        if (error) throw error;
+        if (error) throw error && console.log(error.code);
         res.send(results);
       }
     );
