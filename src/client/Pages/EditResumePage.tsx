@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { IEducation } from "../Models/Education";
 import { Context } from "../../Context";
-// import { applySnapshot } from "mobx-state-tree";
 
 let style = {
   padding: "10px",
@@ -23,24 +22,8 @@ const EditResumePage = () => {
     setIsSubmitted,
     isSubmitted,
   } = React.useContext(Context);
-  // setIsEducationSubmitted(false);
 
   const currentRes = resumeStore.selectedResume!;
-
-  // const fetch = async () => {
-  //   if (!educationStore.isFetched) {
-  //     await educationStore.fetchEducation(currentRes.id!).then((data) => {
-  //       console.log("fetch called, isFetched= " + educationStore.isFetched);
-  //       applySnapshot(
-  //         currentRes.educationArray,
-  //         data.map((data) => data.uuid)
-  //       );
-  //     });
-
-  //     await educationStore.toggleIsFetched();
-  //   }
-  // };
-  // fetch();
 
   function handleInput(event: any) {
     const target = event.target;
@@ -57,13 +40,14 @@ const EditResumePage = () => {
 
   function displayInput() {
     let items;
-    console.log(JSON.stringify(currentRes.educationArray));
     if (currentRes) {
-      items = currentRes.educationArray.map((item: IEducation) => (
-        <li key={item.uuid} id={item.uuid} style={{ listStyleType: "none" }}>
-          {item.degree}
-        </li>
-      ));
+      items = educationStore
+        .getEducationbyResId(currentRes.id!)
+        .map((item: IEducation) => (
+          <li key={item.uuid} id={item.uuid} style={{ listStyleType: "none" }}>
+            {item.degree}
+          </li>
+        ));
     } else {
       items = <li></li>;
     }
@@ -85,6 +69,9 @@ const EditResumePage = () => {
       return <p>empty</p>;
     }
   }
+  const resetSelected = () => {
+    resumeStore.setSelectedResume("");
+  };
 
   function handleSubmit(event: any) {
     event.preventDefault();
@@ -117,11 +104,13 @@ const EditResumePage = () => {
 
   let items;
   if (currentRes) {
-    items = currentRes.educationArray.map((item: IEducation) => (
-      <li key={item.uuid} id={item.uuid}>
-        {item.degree}
-      </li>
-    ));
+    items = educationStore
+      .getEducationbyResId(currentRes.id!)
+      .map((item: IEducation) => (
+        <li key={item.uuid} id={item.uuid}>
+          {item.degree}
+        </li>
+      ));
   } else {
     items = <li></li>;
   }
@@ -173,14 +162,14 @@ const EditResumePage = () => {
           </button>
           <button onClick={updateResume}>Save Resume</button>
           <Link to="/">
-            <button>Go back</button>
+            <button onClick={resetSelected}>Go back</button>
           </Link>
         </div>
       </form>
     </>
   ) : (
     <div style={{ display: "grid", justifyContent: "center" }}>
-      <p id="user-input">{displayInput()}</p>
+      {displayInput()}
       <button id="go-back" onClick={handleSubmit}>
         Go back
       </button>

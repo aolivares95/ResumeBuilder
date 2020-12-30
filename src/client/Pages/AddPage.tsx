@@ -8,8 +8,6 @@ import { Context } from "../../Context";
 
 const AddPage = ({ classes }: any) => {
   const { resumeStore } = React.useContext(Context);
-  resumeStore.fetchResumes();
-
   const addResume = () => {
     let current = resumeStore.addResume("");
     resumeStore.setSelectedResume(current.uuid);

@@ -31,20 +31,22 @@ export const EducationStore = types
     return { addToMap };
   })
   .actions((self) => {
-    const fetchEducation = flow(function* fetchEducation(resumeId: number) {
-      yield fetch("http://localhost:5000/education/" + resumeId)
-        .then((result) => result.json())
+    const fetchEducation = flow(function* fetchEducation() {
+      yield fetch("http://localhost:5000/education/")
+        .then((result) => {
+          if (result.ok) {
+            return result.json();
+          } else {
+            return Promise.reject(result.statusText);
+            // throw new Error("Fetch failed");
+          }
+        })
         .then((data) => {
           applySnapshot(self.educationArray, data);
         });
       self.addToMap(self.educationArray);
-
       return self.educationArray;
     });
-
-    function toggleIsFetched() {
-      self.isFetched = !self.isFetched;
-    }
 
     function addEducation(
       newResumeId: number,
@@ -75,7 +77,6 @@ export const EducationStore = types
       saveEducation,
       setCurrentEdu,
       fetchEducation,
-      toggleIsFetched,
     };
   });
 

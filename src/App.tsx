@@ -5,8 +5,13 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddPage from "./client/Pages/AddPage";
 import SelectResumePage from "./client/Pages/SelectResumePage";
 import { AppBar, Toolbar } from "@material-ui/core";
+import { Context } from "./Context";
 
 export const App = () => {
+  const { resumeStore, educationStore } = React.useContext(Context);
+
+  resumeStore.fetchResumes();
+  educationStore.fetchEducation();
   return (
     <>
       <AppBar position="static">

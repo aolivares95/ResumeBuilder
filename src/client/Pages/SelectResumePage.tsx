@@ -7,18 +7,18 @@ import { observer } from "mobx-react";
 import { Context } from "../../Context";
 
 const SelectResumePage = ({ classes }: any) => {
-  const { resumeStore, educationStore } = React.useContext(Context);
-  // resumeStore.fetchResumes();
-  if (educationStore.isFetched === true) {
-    educationStore.toggleIsFetched();
-  }
+  const { resumeStore } = React.useContext(Context);
   return (
     <>
       <h1 className={classes.addH1Style}>Select Page</h1>
       <div className={classes.addDivStyle}>
         {resumeStore.itemsInResume() ? (
           <Link to="/edit">
-            <button>Edit resume</button>
+            {resumeStore.selectedResume ? (
+              <button>Edit resume</button>
+            ) : (
+              <div></div>
+            )}
           </Link>
         ) : undefined}
         <Link to="/">

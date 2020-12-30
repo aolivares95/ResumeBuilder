@@ -22,10 +22,18 @@ export const ResumeStore = types
   .actions((self) => {
     const fetchResumes = flow(function* fetchResumes() {
       yield fetch("http://localhost:5000/resume")
-        .then((result) => result.json())
+        .then((result) => {
+          if (!result.ok) {
+            throw new Error("Network response failed");
+          }
+          return result.json();
+        })
         .then((data) => {
           applySnapshot(self.resumes, data);
-        });
+        })
+        .catch((error) =>
+          console.error("There was an issue with the fetch operation: ", error)
+        );
       self.addToMap(self.resumes);
       return self.resumes;
     });
